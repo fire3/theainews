@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, categoryLabel } from '../lib/format';
+
+interface Props {
+  post: CollectionEntry<'news'>;
+  eager?: boolean;
+}
+
+const { post, eager = false } = Astro.props;
+const { data } = post;
+---
+
+<article class="home-post-box">
+  <a class="story-link" href={`/articles/${post.id}/`}>
+    <div class="home-img">
+      <img
+        src={data.image ?? '/covers/placeholder.svg'}
+        alt={data.imageAlt ?? data.title}
+        width="728"
+        height="380"
+        loading={eager ? 'eager' : 'lazy'}
+      />
+    </div>
+    <div class="home-right">
+      <h2 class="home-title">{data.title}</h2>
+      <div class="item-label">
+        <span class="home-category">{categoryLabel(data.category)}</span>
+        <span class="h-datetime">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20z" />
+          </svg>
+          {formatDate(data.pubDate)}
+        </span>
+      </div>
+      <p class="home-desc">{data.description}</p>
+    </div>
+  </a>
+</article>

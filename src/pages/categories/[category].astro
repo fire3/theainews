@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import TopStories from '../../components/TopStories.astro';
+import { CATEGORIES } from '../../data/site';
+
+export async function getStaticPaths() {
+  return CATEGORIES.map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+
+const allPosts = (await getCollection('news')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+const posts = allPosts.filter((post) => post.data.category === category.slug);
+
+const flagged = allPosts.filter((post) => post.data.topStory);
+const topStories = flagged.length >= 5 ? flagged : allPosts;
+---
+
+<BaseLayout
+  title={category.name}
+  description={`${category.name} 分类下的最新文章`}
+>
+  <main class="main">
+    <div class="main-box">
+      <div class="main-left-right">
+        <section class="left-box">
+          <h1 class="category-title">{category.name}</h1>
+          {posts.length > 0 ? (
+            posts.map((post, index) => (
+              <ArticleCard post={post} eager={index === 0} />
+            ))
+          ) : (
+            <p class="empty-hint">该分类下暂无文章。</p>
+          )}
+        </section>
+        <TopStories stories={topStories} />
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .category-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-heading);
+    margin-bottom: 8px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--brand-primary);
+  }
+  .empty-hint {
+    color: var(--text-secondary);
+    font-size: 15px;
+    padding: 32px 0;
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+import { SITE, CATEGORIES } from '../data/site';
+---
+
+<footer class="footer">
+  <div class="footer-box">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-title">{SITE.title}</div>
+        <p>{SITE.description}</p>
+      </div>
+      <div class="footer-col">
+        <h5>栏目</h5>
+        <ul>
+          {CATEGORIES.map((category) => (
+            <li><a href={category.href}>{category.name}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>关于</h5>
+        <ul>
+          <li><a href="/">首页</a></li>
+          <li><a href="#">关于我们</a></li>
+          <li><a href="#">联系方式</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-note">
+      &copy; {new Date().getFullYear()} {SITE.title}. All rights reserved.
+    </div>
+  </div>
+</footer>

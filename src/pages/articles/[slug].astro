@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import TopStories from '../../components/TopStories.astro';
+import { formatDate, categoryLabel } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('news');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const allPosts = (await getCollection('news')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+const related = allPosts.filter((p) => p.id !== post.id).slice(0, 3);
+
+const flagged = allPosts.filter((p) => p.data.topStory);
+const topStories = flagged.length >= 5 ? flagged : allPosts;
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <main class="article-main">
+    <div class="main-box">
+      <div class="main-left-right">
+        <div class="left-box">
+          <article class="story-holder">
+            <p class="label-name">
+              <a href={`/categories/${post.data.category}/`}>
+                {categoryLabel(post.data.category)}
+              </a>
+            </p>
+            <h1 class="story-title">{post.data.title}</h1>
+            <div class="postmeta">
+              <span class="author">{post.data.author}</span>
+              <span class="sep">·</span>
+              <span class="h-datetime">{formatDate(post.data.pubDate)}</span>
+            </div>
+            {post.data.image && (
+              <figure class="article-cover">
+                <img
+                  src={post.data.image}
+                  alt={post.data.imageAlt ?? post.data.title}
+                  width="728"
+                  height="380"
+                />
+              </figure>
+            )}
+            <div class="articlebody">
+              <Content />
+            </div>
+          </article>
+
+          {related.length > 0 && (
+            <section class="related-holder" aria-label="相关阅读">
+              <h2 class="latest-title">相关阅读</h2>
+              {related.map((p) => <ArticleCard post={p} />)}
+            </section>
+          )}
+        </div>
+        <TopStories stories={topStories} />
+      </div>
+    </div>
+  </main>
+</BaseLayout>

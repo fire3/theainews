@@ -1,0 +1,78 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  stories: CollectionEntry<'news'>[];
+}
+
+const { stories } = Astro.props;
+const firstFive = stories.slice(0, 5);
+const rest = stories.slice(5);
+---
+
+<aside class="rightbx" aria-label="本周热门">
+  <h2 class="latest-title">
+    <span class="bolt">⚡</span>Top Stories This Week
+  </h2>
+  <div class="widget-content popular-posts" id="popular-list">
+    {firstFive.map((story) => (
+      <div class="pop-article">
+        <a class="pop-link" href={`/articles/${story.id}/`}>
+          <div class="side-pop-image">
+            <img
+              src={story.data.image ?? '/covers/placeholder.svg'}
+              alt={story.data.imageAlt ?? story.data.title}
+              width="60"
+              height="60"
+              loading="lazy"
+            />
+          </div>
+          <div class="pop-desc">
+            <div class="pop-title">{story.data.title}</div>
+          </div>
+        </a>
+      </div>
+    ))}
+    {rest.map((story) => (
+      <div class="pop-article hidden">
+        <a class="pop-link" href={`/articles/${story.id}/`}>
+          <div class="side-pop-image">
+            <img
+              src={story.data.image ?? '/covers/placeholder.svg'}
+              alt={story.data.imageAlt ?? story.data.title}
+              width="60"
+              height="60"
+              loading="lazy"
+            />
+          </div>
+          <div class="pop-desc">
+            <div class="pop-title">{story.data.title}</div>
+          </div>
+        </a>
+      </div>
+    ))}
+  </div>
+  {rest.length > 0 && (
+    <button class="show-more-btn" id="show-more-btn" type="button">
+      Show More
+    </button>
+  )}
+</aside>
+
+<script>
+  const button = document.getElementById('show-more-btn');
+  const list = document.getElementById('popular-list');
+
+  button?.addEventListener('click', () => {
+    const hiddenItems = list?.querySelectorAll('.pop-article.hidden') ?? [];
+    hiddenItems.forEach((el, index) => {
+      if (index < 5) {
+        el.classList.remove('hidden');
+        el.classList.add('fade-in');
+      }
+    });
+    if (!list?.querySelector('.pop-article.hidden')) {
+      button.remove();
+    }
+  });
+</script>

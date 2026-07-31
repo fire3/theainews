@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="728" height="380" viewBox="0 0 728 380">
+  <rect width="728" height="380" fill="#eef2fb"/>
+  <circle cx="620" cy="70" r="150" fill="#3B35AE" opacity="0.10"/>
+  <circle cx="90" cy="330" r="120" fill="#9BB2FF" opacity="0.12"/>
+  <text x="364" y="196" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#9aa4c8">The AI News</text>
+</svg>
