@@ -30,8 +30,7 @@ const topStories = flagged.length >= 5 ? flagged : allPosts;
   <main class="main">
     <div class="main-box">
       <div class="main-left-right">
-        <section class="left-box">
-          <h1 class="category-title">{category.name}</h1>
+        <section class="left-box" aria-label={`${category.name} 文章`}>
           {posts.length > 0 ? (
             posts.map((post, index) => (
               <ArticleCard post={post} eager={index === 0} />
@@ -47,17 +46,8 @@ const topStories = flagged.length >= 5 ? flagged : allPosts;
 </BaseLayout>
 
 <style>
-  .category-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--text-heading);
-    margin-bottom: 8px;
-    padding-bottom: 14px;
-    border-bottom: 2px solid var(--brand-primary);
-  }
   .empty-hint {
     color: var(--text-secondary);
-    font-size: 15px;
-    padding: 32px 0;
+    padding: 20px 0;
   }
 </style>

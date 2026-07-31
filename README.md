@@ -67,6 +67,8 @@ topStory: true              # true 时进入首页右侧 Top Stories
 - **站点名称 / 标语 / 描述**：修改 `src/data/site.ts` 中的 `SITE`
 - **栏目**：修改 `src/data/site.ts` 中的 `CATEGORIES`（顶部导航与分类页会同步生成）
 - **主题色**：修改 `src/styles/global.css` 顶部的 `:root` 变量（主色 `--brand-primary` 等）
+- **品牌字体**：默认使用 Space Grotesk（`@fontsource-variable` 自托管，无需外链），
+  在 `src/styles/global.css` 顶部的 `--font-display` 中更换；中文正文始终回退到系统字体
 - **卡片尺寸**：修改 `--card-height`（桌面 140px，移动端 118px）
 
 ## 部署
