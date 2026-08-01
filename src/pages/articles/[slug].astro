@@ -31,13 +31,12 @@ const topStories = flagged.length >= 5 ? flagged : allPosts;
       <div class="main-left-right">
         <div class="left-box">
           <article class="story-holder">
-            <p class="label-name">
-              <a href={`/categories/${post.data.category}/`}>
-                {categoryLabel(post.data.category)}
-              </a>
-            </p>
             <h1 class="story-title">{post.data.title}</h1>
             <div class="postmeta">
+              <a class="postmeta-cat" href={`/categories/${post.data.category}/`}>
+                {categoryLabel(post.data.category)}
+              </a>
+              <span class="sep">·</span>
               <span class="author">{post.data.author}</span>
               <span class="sep">·</span>
               <span class="h-datetime">{formatDate(post.data.pubDate)}</span>

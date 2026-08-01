@@ -441,13 +441,10 @@ figure {
   padding: 0 0 16px;
 }
 
-.label-name {
-  margin: 0 0 10px;
-}
-
-.label-name a {
-  display: inline-block;
-  padding: 4px 10px;
+.postmeta-cat {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
   background: linear-gradient(135deg, var(--brand-primary), var(--brand-dark));
   color: #fff;
   font-size: 11px;
@@ -458,7 +455,7 @@ figure {
   transition: opacity 0.15s ease;
 }
 
-.label-name a:hover {
+.postmeta-cat:hover {
   opacity: 0.85;
 }
 
