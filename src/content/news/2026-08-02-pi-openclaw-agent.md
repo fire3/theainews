@@ -1,7 +1,7 @@
 ---
 title: "Pi：藏在 OpenClaw 里的极简编码智能体"
 description: "OpenClaw 背后的极简编码智能体 Pi：最短系统提示词加四个核心工具，靠扩展系统让 Agent 自己扩展自己。"
-pubDate: 2026-01-31
+pubDate: 2026-08-02
 author: "林晓"
 category: "tools"
 tags: ["Pi", "OpenClaw", "编码智能体", "Agent", "开发者工具"]

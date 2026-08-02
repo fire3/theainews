@@ -1,7 +1,7 @@
 ---
 title: "smevals 上手：给模型、提示词和 Agent 框架做评测的轻量套件"
 description: "Simon Willison 的轻量评测套件 smevals：目录即评测、YAML 配任务、脚本当裁判，还能让编码智能体自己搭评测。"
-pubDate: 2026-07-31
+pubDate: 2026-08-02
 author: "林晓"
 category: "tutorial"
 tags: ["smevals", "模型评测", "LLM", "开源工具", "教程"]
