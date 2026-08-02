@@ -1,30 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ArticleCard from '../components/ArticleCard.astro';
-import TopStories from '../components/TopStories.astro';
+import HomeFeed from '../components/HomeFeed.astro';
 import { SITE } from '../data/site';
+import { getAllPosts, paginate } from '../lib/posts';
 
-const posts = (await getCollection('news')).sort(
-  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
-);
-
-// 右侧 Top Stories：优先取标记了 topStory 的文章，不足 5 条则退回最新文章
-const flagged = posts.filter((post) => post.data.topStory);
-const topStories = flagged.length >= 5 ? flagged : posts;
+const posts = await getAllPosts();
+const { items, totalPages } = paginate(posts, 1);
 ---
 
 <BaseLayout description={SITE.description}>
-  <main class="main">
-    <div class="main-box">
-      <div class="main-left-right">
-        <section class="left-box" aria-label="最新文章">
-          {posts.map((post, index) => (
-            <ArticleCard post={post} eager={index === 0} />
-          ))}
-        </section>
-        <TopStories stories={topStories} />
-      </div>
-    </div>
-  </main>
+  <HomeFeed posts={posts} items={items} currentPage={1} totalPages={totalPages} />
 </BaseLayout>

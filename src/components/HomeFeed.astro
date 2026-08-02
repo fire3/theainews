@@ -1,0 +1,33 @@
+---
+import ArticleCard from './ArticleCard.astro';
+import TopStories from './TopStories.astro';
+import Pagination from './Pagination.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts: CollectionEntry<'news'>[];
+  items: CollectionEntry<'news'>[];
+  currentPage: number;
+  totalPages: number;
+}
+
+const { posts, items, currentPage, totalPages } = Astro.props;
+
+// 右侧 Top Stories：优先取标记了 topStory 的文章，不足 5 条则退回最新文章
+const flagged = posts.filter((post) => post.data.topStory);
+const topStories = flagged.length >= 5 ? flagged : posts;
+---
+
+<main class="main">
+  <div class="main-box">
+    <div class="main-left-right">
+      <section class="left-box" aria-label="最新文章">
+        {items.map((post, index) => (
+          <ArticleCard post={post} eager={currentPage === 1 && index === 0} />
+        ))}
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
+      </section>
+      <TopStories stories={topStories} />
+    </div>
+  </div>
+</main>

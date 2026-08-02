@@ -1,0 +1,65 @@
+---
+import { pagePath } from '../lib/posts';
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+}
+
+const { currentPage, totalPages } = Astro.props;
+
+// 页码列表：总数较少时全部展示，较多时只展示首尾与当前页附近，中间用省略号
+const pages: (number | 'ellipsis')[] = [];
+if (totalPages <= 7) {
+  for (let i = 1; i <= totalPages; i += 1) pages.push(i);
+} else {
+  const candidates = new Set([
+    1,
+    2,
+    currentPage - 1,
+    currentPage,
+    currentPage + 1,
+    totalPages - 1,
+    totalPages,
+  ]);
+  const sorted = [...candidates].filter((p) => p >= 1 && p <= totalPages).sort((a, b) => a - b);
+  let prev = 0;
+  for (const p of sorted) {
+    if (p - prev > 1) pages.push('ellipsis');
+    pages.push(p);
+    prev = p;
+  }
+}
+---
+
+{
+  totalPages > 1 && (
+    <nav class="pagination" aria-label="文章分页">
+      {currentPage > 1 ? (
+        <a class="page-btn" href={pagePath(currentPage - 1)}>« 上一页</a>
+      ) : (
+        <span class="page-btn disabled">« 上一页</span>
+      )}
+
+      {pages.map((p) =>
+        p === 'ellipsis' ? (
+          <span class="page-ellipsis">…</span>
+        ) : (
+          <a
+            class={p === currentPage ? 'page-num active' : 'page-num'}
+            href={pagePath(p)}
+            aria-current={p === currentPage ? 'page' : undefined}
+          >
+            {p}
+          </a>
+        )
+      )}
+
+      {currentPage < totalPages ? (
+        <a class="page-btn" href={pagePath(currentPage + 1)}>下一页 »</a>
+      ) : (
+        <span class="page-btn disabled">下一页 »</span>
+      )}
+    </nav>
+  )
+}

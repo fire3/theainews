@@ -321,6 +321,60 @@ figure {
   -webkit-line-clamp: 2;
 }
 
+/* ============ 首页分页 ============ */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.page-btn,
+.page-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 13px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--text-heading);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.page-btn {
+  min-width: 88px;
+}
+
+.page-btn:hover:not(.disabled),
+.page-num:hover:not(.active) {
+  border-color: var(--link-color);
+  color: var(--link-color);
+}
+
+.page-num.active {
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-dark));
+  border-color: var(--brand-primary);
+  color: #fff;
+  cursor: default;
+}
+
+.page-btn.disabled,
+.page-ellipsis {
+  color: #b4bacb;
+  cursor: default;
+}
+
 /* ============ 右侧 Top Stories ============ */
 
 .latest-title {
