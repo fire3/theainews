@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import TopStories from '../../components/TopStories.astro';
-import { formatDate, categoryLabel } from '../../lib/format';
+import { formatDate, categoryLabel, categoryCover } from '../../lib/format';
 
 export async function getStaticPaths() {
   const posts = await getCollection('news');
@@ -41,16 +41,14 @@ const topStories = flagged.length >= 5 ? flagged : allPosts;
               <span class="sep">·</span>
               <span class="h-datetime">{formatDate(post.data.pubDate)}</span>
             </div>
-            {post.data.image && (
-              <figure class="article-cover">
-                <img
-                  src={post.data.image}
-                  alt={post.data.imageAlt ?? post.data.title}
-                  width="728"
-                  height="380"
-                />
-              </figure>
-            )}
+            <figure class="article-cover">
+              <img
+                src={post.data.image ?? categoryCover(post.data.category)}
+                alt={post.data.imageAlt ?? post.data.title}
+                width="728"
+                height="380"
+              />
+            </figure>
             <div class="articlebody">
               <Content />
             </div>

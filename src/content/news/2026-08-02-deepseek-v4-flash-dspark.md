@@ -5,8 +5,6 @@ pubDate: 2026-08-02
 author: "林晓"
 category: "models"
 tags: ["DeepSeek", "DSpark", "vLLM", "投机解码", "推理部署"]
-image: "/covers/ds4-dspark.svg"
-imageAlt: "DeepSeek-V4-Flash-0731 的 Gilded Gnosis r16 DSpark 推理镜像"
 ---
 
 local-inference-lab 发布了 `deepseek-ai/DeepSeek-V4-Flash-0731` 的统一 **Gilded Gnosis r16** 版本。该版本在 GLM-5.2 所使用的同一条镜像线路上，加入了持续维护的 DSpark 启动器、固定 K5 发布配置、InstantTensor 加载，以及可选的原生 CPU KV 卸载。

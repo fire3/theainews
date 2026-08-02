@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { categoryCover } from '../lib/format';
 
 interface Props {
   stories: CollectionEntry<'news'>[];
@@ -20,7 +21,7 @@ const rest = stories.slice(5);
         <a class="pop-link" href={`/articles/${story.id}/`}>
           <div class="side-pop-image">
             <img
-              src={story.data.image ?? '/covers/placeholder.svg'}
+            src={story.data.image ?? categoryCover(story.data.category)}
               alt={story.data.imageAlt ?? story.data.title}
               width="60"
               height="60"
@@ -38,7 +39,7 @@ const rest = stories.slice(5);
         <a class="pop-link" href={`/articles/${story.id}/`}>
           <div class="side-pop-image">
             <img
-              src={story.data.image ?? '/covers/placeholder.svg'}
+              src={story.data.image ?? categoryCover(story.data.category)}
               alt={story.data.imageAlt ?? story.data.title}
               width="60"
               height="60"

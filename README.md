@@ -15,10 +15,10 @@ description: "首页卡片上固定两行的摘要，建议 80 字以内"
 pubDate: 2026-08-01
 author: "作者名"
 category: "industry"          # 必须是 src/data/site.ts 中 CATEGORIES 的 slug：
-                              # models / tools / research / industry / policy
+                              # models / tools / research / industry / tutorial
 tags: ["标签一", "标签二"]
-image: "/covers/example.jpg"  # 必填，文章封面图；放在 public/ 下，路径以 / 开头。
-                              # 缺少封面配图的文章无法通过构建，不会被发布
+image: "/covers/example.jpg"  # 可选，文章封面图；放在 public/ 下，路径以 / 开头。
+                              # 缺省时自动展示对应栏目默认封面（public/covers/default-*.png）
 imageAlt: "配图描述"           # 可选，建议填写
 topStory: true                # 可选，true 时进入首页右侧 Top Stories
 ---
@@ -35,7 +35,7 @@ topStory: true                # 可选，true 时进入首页右侧 Top Stories
   ```
 
 - 图片统一放在 `public/` 下（如 `public/covers/` 作为封面、`public/images/` 作为正文配图）
-- `image` 为必填字段：文章必须设置封面配图，否则构建失败、无法发布
+- `image` 为可选字段：不设置时自动展示对应栏目默认封面（`public/covers/default-<栏目>.png`）
 - `category` 必须与 `src/data/site.ts` 中的 `CATEGORIES` slug 一致，否则构建会报错
 - 保存并推送到 Git 后 Vercel 会自动部署；正式发布前可用下面的命令本地验证
 

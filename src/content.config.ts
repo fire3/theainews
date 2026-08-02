@@ -12,8 +12,8 @@ const news = defineCollection({
     // 与 src/data/site.ts 中 CATEGORIES 的 slug 对应
     category: z.string(),
     tags: z.array(z.string()).optional().default([]),
-    // 文章封面配图（放在 public/covers/ 下），必填；缺少该字段的文章构建会失败，不会发布
-    image: z.string(),
+    // 文章封面配图（放在 public/covers/ 下）；缺省时按栏目展示默认封面
+    image: z.string().optional(),
     imageAlt: z.string().optional(),
     // 标记为 true 的文章会出现在右侧 Top Stories 中
     topStory: z.boolean().optional().default(false),

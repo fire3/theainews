@@ -11,5 +11,5 @@ export const CATEGORIES = [
   { name: '工具', slug: 'tools', href: '/categories/tools/' },
   { name: '研究', slug: 'research', href: '/categories/research/' },
   { name: '行业', slug: 'industry', href: '/categories/industry/' },
-  { name: '政策', slug: 'policy', href: '/categories/policy/' },
+  { name: '教程', slug: 'tutorial', href: '/categories/tutorial/' },
 ];

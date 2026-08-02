@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { formatDate, categoryLabel } from '../lib/format';
+import { formatDate, categoryLabel, categoryCover } from '../lib/format';
 
 interface Props {
   post: CollectionEntry<'news'>;
@@ -15,7 +15,7 @@ const { data } = post;
   <a class="story-link" href={`/articles/${post.id}/`}>
     <div class="home-img">
       <img
-        src={data.image ?? '/covers/placeholder.svg'}
+        src={data.image ?? categoryCover(data.category)}
         alt={data.imageAlt ?? data.title}
         width="728"
         height="380"
