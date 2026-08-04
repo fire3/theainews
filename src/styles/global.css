@@ -559,6 +559,18 @@ figure {
   margin: 20px 0;
 }
 
+.articlebody .katex-display {
+  margin: 22px 0;
+  padding: 4px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+
+.articlebody .katex-display > .katex {
+  font-size: 1.08em;
+}
+
 .articlebody h2 {
   margin: 28px 0 -4px;
   padding-top: 8px;
