@@ -38,6 +38,8 @@ topStory: true                # 可选，true 时进入首页右侧 Top Stories
 - `image` 为可选字段：不设置时自动展示对应栏目默认封面（`public/covers/default-<栏目>.png`）
 - `category` 必须与 `src/data/site.ts` 中的 `CATEGORIES` slug 一致，否则构建会报错
 - 保存并推送到 Git 后 Vercel 会自动部署；正式发布前可用下面的命令本地验证
+- 添加完文章后，应当使用astro进行build验证。
+- 智能体可以自行完成commit + push 的操作（注意解决冲突）。
 
 ## 本地开发
 
