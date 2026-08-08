@@ -19,6 +19,8 @@ Kitesurf 的思路是反过来：给智能体一个**在 AI 关键维度上做�
 
 风险模型也完全不同。在 AI 用浏览器的语境下，**提示注入（prompt injection）和工具安全**成了头等大事。
 
+![Kitesurf 的灵感来源](/images/kitesurf-inspiration.png)
+
 ## 设计决策：测试、Wasm、异常处理与隔离
 
 从原型走向能扛生产负载的浏览器，Cloudflare 分享了四条贯穿始终的设计原则。
@@ -31,17 +33,31 @@ Kitesurf 的思路是反过来：给智能体一个**在 AI 关键维度上做�
 
 - **全隔离、尽量无状态**：agent 被指向的是任意来源的任意代码，所以假设**每次页面加载都是不可信输入、每个会话都从零开始**。每个组件只访问它严格必需的资源。能做成无状态的组件就做成无状态的——崩溃恢复就是重启重放请求，天然适合突发型的自动化负载。
 
+这套设计落成了一张 Kitesurf 请求生命周期的总览图——从外部 API 进入，到页面渲染返回，每个环节都能独立伸缩、独立失败恢复：
+
+![Kitesurf 一次请求的生命周期总览](/images/kitesurf-life-of-request.png)
+
 ## 三大组件：Engine、PageScript、PageRenderer
 
 Kitesurf 的一次请求生命周期由三个主要组件完成。
 
+![Kitesurf 的三大组件](/images/kitesurf-components.png)
+
 **Engine** 是唯一对外公开的组件，负责 CDP WebSocket 和 HTTP REST API、以及会话状态存储，其余组件全部无状态。它兼容 Chrome DevTools Protocol，所以 Puppeteer、Playwright、chrome-remote-interface 乃至 Chrome DevTools 前端，指过去就能直接用——这也是 Browser Run 的接入方式。
+
+![Engine 组件](/images/kitesurf-engine.png)
 
 **PageScript** 是 Dynamic Workers 威力的体现。每个新页面或进程外 iframe（OOPIF）都用 Dynamic Workers 拉起一个长生命周期 PageScript 隔离环境，内含干净的 globalThis 和 DOM 对象。HTML 与 CSS 的解析复用 Blitz（模块化渲染引擎）和 Stylo（Firefox 的高性能 CSS 解析器），均以 Rust 编写。至于 `eval`——出于安全考量 Workers 原生不支持，就用 Rust 编写的 ECMAScript 引擎 Boa JS 在运行时之上再跑一个运行时来兜底，等原生 eval 落地后再迁移。
 
+![PageScript 的内部结构](/images/kitesurf-pagescript.png)
+
 **PageRenderer** 负责把计算出的页面对象真正画成像素。它和 Engine 循环协作：Engine 需要一帧时，PageRenderer 从 PageScript 拿页面对象（scene），从静态资源取字体和图片，光栅化成图像缓冲再返回给客户端显示成 JPEG/PNG/PDF。这里用到 Blitz 的 blitz-paint 模块，再由 Parley 负责字形排版、选字体、断行。
 
+![PageRenderer 组件](/images/kitesurf-pagerenderer.png)
+
 设计上很巧的一点是**网络访问的收敛**：渲染不可信页面要抓任意资源（图片、字体、CSS、JS、Wasm），这是浏览器最危险的操作之一。Kitesurf 让这一切只经过一个 SandboxOutbound worker——由 Dynamic Workers 强制唯一能碰网络的组件，用它强制 CORS、注入浏览器形状的请求头、过滤响应、给每个页面独立的 cookie jar，不合策略一律 403。
+
+![SandboxOutbound 收敛所有对外网络访问](/images/kitesurf-sandbox-outbound.png)
 
 跨组件的通信靠 Workers 内置的 RPC——Engine 用一次 `renderFrame()` 调用从 PageRenderer 拿到 PNG，无需关心 API schema、类型或鉴权。因为渲染器不持有页面状态，Engine 可以在任何失败或卡住的 RPC 上安全地杀掉并重启它。
 
@@ -49,7 +65,11 @@ Kitesurf 的一次请求生命周期由三个主要组件完成。
 
 Kitesurf 目前**已经通过 21.5 万+ 项 WPT 测试**，而且每周还在新增数百项。对 agent 最重要的部分——CSS、DOM、HTML、选择器、SVG、XHR——覆盖率已经不错，连对 agent 不那么要紧的流（streams）也有了一定支持。
 
+![WPT 测试通过率的增长曲线](/images/kitesurf-wpt-progress.png)
+
 性能上，在 5 次 Browser Run 快捷操作、14 个 URL 语料的中位数对比中，Kitesurf 相对 Chromium（暖池）的表现如下：
+
+![Kitesurf 与 Chromium 的性能对比](/images/kitesurf-performance.png)
 
 | 指标 | Kitesurf | Chromium | 相对差距 |
 |---|---|---|---|
@@ -63,6 +83,8 @@ Kitesurf 目前**已经通过 21.5 万+ 项 WPT 测试**，而且每周还在新
 Chromium 在「秒表」上仍占优——因为跑过热页面的 JIT 总是比冷启动的软件渲染器快，目前差距约 1.7 倍，大部分来自光栅化和 JPEG/PNG 编码，团队会继续优化。但 Kitesurf 在**真正驱动账单的内存和 CPU 上，比 Chromium 省 3–7 倍**——更少的内存意味着能同时跑更多会话、更好扩展，同时压低双方成本。
 
 当然，最重要的测试莫过于：**Kitesurf 能跑 Doom**。
+
+![Kitesurf 运行 Doom](/images/kitesurf-doom.png)
 
 ## 现在就试试
 
