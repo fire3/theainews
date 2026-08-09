@@ -5,6 +5,8 @@ pubDate: 2026-08-08
 author: "林晓"
 category: "research"
 tags: ["HPC-Ops", "SGLang", "腾讯混元", "MoE", "推理优化", "Attention"]
+image: "/covers/hpc-ops-sglang.jpg"
+imageAlt: "腾讯混元三大推理算子合入 SGLang 主引擎的抽象插画"
 ---
 
 腾讯混元（Hunyuan）AI 基础设施团队与 SGLang 团队联合宣布，混元生产环境自研的算子库 **HPC-Ops** 已集成进 SGLang 主分支。这套为大规模 LLM 推理打磨的算子，把混元里"在线推理关键路径"上的三大优化——工作负载感知的 Attention 调度、精度感知的 Router GEMM、融合的 MoE 流水线——一起带给了开源推理社区。

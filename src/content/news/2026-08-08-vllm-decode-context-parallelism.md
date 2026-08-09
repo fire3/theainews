@@ -5,6 +5,8 @@ pubDate: 2026-08-08
 author: "林晓"
 category: "research"
 tags: ["vLLM", "长上下文", "KV Cache", "并行", "推理优化", "MLA"]
+image: "/covers/vllm-decode-context-parallelism.jpg"
+imageAlt: "沿序列维度切分 KV 缓存分摊到多张 GPU 的抽象插画"
 ---
 
 8 月 7 日，vLLM 团队发文详解了它已经支持近一年的 **Decode Context Parallelism（DCP，解码上下文并行）**，并附上了针对长上下文智能体工作负载的最新基准。之所以现在专门写一篇，是因为长上下文智能体用例的爆发，让它比以往任何时候都更有意义——从论文问答、整个代码仓库推理，到多轮智能体流水线，动辄 64K 甚至 1M token 的输入，把 KV 缓存撑到了必须重新思考"显存往哪放"的地步。

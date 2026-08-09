@@ -5,6 +5,8 @@ pubDate: 2026-08-03
 author: "林晓"
 category: "tutorial"
 tags: ["Mooncake", "vLLM", "KV 缓存", "分布式存储", "PD 分离", "教程"]
+image: "/covers/mooncake-store-kv-cache-storage.jpg"
+imageAlt: "多个 vLLM 实例共享 Mooncake 分布式 KV 缓存池的抽象插画"
 ---
 
 上一篇教程介绍了用 `MooncakeConnector` 在 prefill 与 decode 实例之间直传 KV 缓存。这篇文章继续深入 Mooncake 与 vLLM 集成的另一半：`MooncakeStoreConnector`。它把 KV 缓存从"点对点搬运"升级为"共享存储池"——多个 vLLM 实例通过分布式存储共享缓存块，支持把 KV 缓存卸载到 CPU 内存/SSD 来扩充容量，还能在运行时动态调整 prefill 与 decode 实例的配比（XpYd 部署）。

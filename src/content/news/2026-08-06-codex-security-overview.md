@@ -5,6 +5,8 @@ pubDate: 2026-08-06
 author: "林晓"
 category: "industry"
 tags: ["OpenAI", "Codex", "应用安全", "漏洞修复", "AI Agent"]
+image: "/covers/codex-security-overview.jpg"
+imageAlt: "AI 安全代理扫描海量提交并自动修复漏洞的抽象插画"
 ---
 
 # Codex Security 行业情况综述（2026 年 8 月）

@@ -5,6 +5,8 @@ pubDate: 2026-08-04
 author: "林晓"
 category: "research"
 tags: ["DeepSeek", "DSpark", "投机解码", "推理优化", "大模型推理"]
+image: "/covers/dspark-speculative-decoding.jpg"
+imageAlt: "DSpark 半自回归草稿与置信度调度投机解码的抽象插画"
 ---
 
 投机解码（Speculative Decoding）是当前大模型推理加速最重要的技术路线之一：用一个轻量草稿模型先"猜"出一段候选 token，再由完整的目标模型一次性并行验证，在无损的前提下把生成速度提升数倍。然而草稿质量和验证效率之间存在一对难以兼得的矛盾——自回归草稿质量高但速度线性变慢，并行草稿单次前向就能产出长块却因缺乏 token 间依赖而"后缀衰减"，固定长度验证又在高并发下白白浪费目标模型的批处理容量。

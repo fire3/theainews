@@ -5,6 +5,8 @@ pubDate: 2026-08-08
 author: "林晓"
 category: "tools"
 tags: ["Cloudflare", "Kitesurf", "AI 智能体", "浏览器", "WebAssembly", "Workers"]
+image: "/covers/cloudflare-kitesurf-agent-browser.jpg"
+imageAlt: "运行在 Workers 上的智能体专用浏览器 Kitesurf 抽象插画"
 ---
 
 8 月 6 日，Cloudflare 正式发布 **Kitesurf**——一个完全跑在 Cloudflare Workers 上的「智能体优先」浏览器，上线即免费（beta 期），集成在 Browser Run 里。它的核心主张很直接：浏览器引擎是为人类设计的，不是为 AI 设计的；而这个跑在 Wasm 隔离环境里的轻量引擎，正是为 token 数、上下文窗口、可扩展性和成本这些 AI 真正在意的东西而生。

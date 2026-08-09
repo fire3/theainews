@@ -5,6 +5,8 @@ pubDate: 2026-08-03
 author: "林晓"
 category: "tutorial"
 tags: ["Mooncake", "vLLM", "PD 分离", "RDMA", "KV 缓存", "教程"]
+image: "/covers/mooncake-disagg-prefill-decode.jpg"
+imageAlt: "MooncakeConnector 通过 RDMA 跨节点直传 KV 缓存实现 PD 分离推理的抽象插画"
 ---
 
 大模型推理服务里，"首字延迟"和"吞吐"往往难以兼得。长提示词要先逐 token 计算 KV 缓存（prefill），再逐 token 生成输出（decode），两者在 GPU 上争抢算力与显存带宽。PD（Prefill-Decode）分离的做法，是把这两种阶段拆到不同的实例上，让 prefill 实例专心"算得快"、decode 实例专心"出字稳"。代价是：prefill 算好的 KV 缓存必须跨节点搬到 decode 实例，搬得越慢，延迟越高。

@@ -5,6 +5,8 @@ pubDate: 2026-08-04
 author: "林晓"
 category: "tutorial"
 tags: ["DeepSeek", "MI300X", "vLLM", "ROCm", "推理部署", "教程"]
+image: "/covers/deepseek-v4-flash-mi300x.jpg"
+imageAlt: "单块 AMD MI300X 承载 DeepSeek V4 Flash 304B 模型的抽象插画"
 ---
 
 DeepSeek-V4-Flash-0731 是一个 304B 参数的 MoE 检查点，官方 vLLM 部署方案只覆盖 NVIDIA 和更新的 AMD 显卡（MI325X、MI355X），单独一块 MI300X 并不在支持清单里。要在 `gfx942` 上把它跑稳，需要处理 FP8 格式不兼容、高并发下 MoE 路由错误、投机验证的因果掩码、CPU-KV 同步以及一堆未调优的内核形状。2026 年 8 月 4 日，Ryan Zhou 开源了一套经生产验证的单卡部署栈，把这些问题全部收拢进一个 digest 锁定的 Docker Compose 项目里，附带 SHA-256 校验、可追溯的补丁与 AITER 调优表。

@@ -5,6 +5,8 @@ pubDate: 2026-08-07
 author: "林晓"
 category: "research"
 tags: ["AutomationBench", "AI 智能体", "基准测试", "Zapier", "工作流自动化"]
+image: "/covers/automationbench-agent-benchmark.jpg"
+imageAlt: "智能体在真实业务流程任务路线中完成基准评测的抽象插画"
 ---
 
 一个真实的业务任务往往横跨多个系统：先查 CRM 里的客户等级，再按政策文档判断该不该升级，从邮箱里找对联系人，最后在日历和 Slack 上完成排期与通知。现有基准要么只测单应用的 API 调用，要么让智能体在固定工具集里选，很少同时考验"跨应用协调 + 自主发现 API + 遵守业务政策"这三件事。Zapier 发布的 AutomationBench 就是冲着这个空白来的——它把自家平台上的真实工作流模式改造成了一个可编程验证的智能体基准。

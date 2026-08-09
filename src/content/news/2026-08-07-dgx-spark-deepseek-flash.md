@@ -5,6 +5,8 @@ pubDate: 2026-08-07
 author: "林晓"
 category: "tutorial"
 tags: ["DGX Spark", "DeepSeek", "vLLM", "DSpark", "多机部署"]
+image: "/covers/dgx-spark-deepseek-flash.jpg"
+imageAlt: "两台 DGX Spark 通过 200GbE 直连协同推理的抽象插画"
 ---
 
 DeepSeek-V4-Flash-0731 的量化权重就有 166.9 GB，单台 DGX Spark（GB10，128 GB 统一内存）虽然能加载，但想要同时吃下 100 万 token 的上下文窗口和可用的并发能力，就需要两台机器组队：每台各扛一半模型分片，通过 200GbE 高速互联做张量并行（TP=2）。一位开发者把整个部署过程整理成了可逐步复现的手册（[maliubiao/dgx-spark-2-deepseek-flash-0731](https://github.com/maliubiao/dgx-spark-2-deepseek-flash-0731)），包括硬件拓扑、集群配置、NCCL 验证、模型下载、启动调优和长跑实测。本文基于这份材料，梳理最值得注意的问题和最终效果。

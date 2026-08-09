@@ -5,6 +5,8 @@ pubDate: 2026-08-07
 author: "林晓"
 category: "tools"
 tags: ["vLLM", "DeepSeek", "A6000", "模型推理", "开源工具"]
+image: "/covers/vllm-backport-ampere.jpg"
+imageAlt: "DeepSeek-V4-Flash 推理能力回移植到 A6000 显卡的抽象插画"
 ---
 
 大模型的新推理内核往往优先适配 Hopper 和 Blackwell 等新架构，Ampere 老卡用户常常只能等社区补刀。DeepSeek-V4-Flash-0731 发布后，`vllm-backport` 直接把问题扛了下来：这是一个专门把该模型的推理支持"回移植"到 Ampere 的 vLLM 分支，让 A6000、A100、RTX 30 系甚至 RTX 4090 都能跑起这款 166.9 GB 的量化模型。

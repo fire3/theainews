@@ -5,6 +5,8 @@ pubDate: 2026-08-07
 author: "林晓"
 category: "tutorial"
 tags: ["New API", "API 网关", "模型聚合", "Docker", "自部署"]
+image: "/covers/new-api-gateway-setup.jpg"
+imageAlt: "多模型经 New API 网关聚合为统一 API 出口的抽象插画"
 ---
 
 买了多家模型服务的 API Key，却发现每家的接口格式都不一样：OpenAI 一套、Claude 一套、Gemini 又一套，客户端和代码要分别适配；想给团队统一发额度、看用量、做成本核算，更是无从下手。New API 解决的正是这个问题：它是一个开源的大模型网关，把多家服务商聚合到同一个入口，对外只暴露 OpenAI、Claude、Gemini 兼容的统一接口，同时内置渠道管理、令牌权限、用量统计和计费功能。

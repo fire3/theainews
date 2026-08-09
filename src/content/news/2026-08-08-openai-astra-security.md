@@ -5,6 +5,8 @@ pubDate: 2026-08-08
 author: "林晓"
 category: "industry"
 tags: ["OpenAI", "Astra", "网络安全", "模型安全", "AI 智能体"]
+image: "/covers/openai-astra-security.jpg"
+imageAlt: "OpenAI Astra 因关键级网络安全风险被隔离管控的抽象插画"
 ---
 
 8 月 8 日，OpenAI 宣布将暂缓下一代模型 Astra 的公开发布。原因不是性能不足，而是因为它太强了——内部与专家评估显示，Astra 在智能体编程和网络安全领域取得重大突破，依据《准备框架》（Preparedness Framework），它成为 OpenAI 旗下**首个网络安全风险达到“关键”（Critical）级别**的模型。

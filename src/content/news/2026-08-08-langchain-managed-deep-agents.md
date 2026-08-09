@@ -5,6 +5,8 @@ pubDate: 2026-08-08
 author: "林晓"
 category: "tools"
 tags: ["LangChain", "Deep Agents", "LangSmith", "AI 智能体", "Agent 基建"]
+image: "/covers/langchain-managed-deep-agents.jpg"
+imageAlt: "智能体打包部署到 LangSmith 托管云的抽象插画"
 ---
 
 8 月 7 日，LangChain 宣布托管版 Deep Agents（Managed Deep Agents，简称 MDA）进入**公开测试（public beta）**。它的核心主张可以压缩成一句话：你继续用喜欢的语言和框架写智能体，把持久化、沙箱、评测、部署这些"跑生产"的基建交给 LangSmith。
