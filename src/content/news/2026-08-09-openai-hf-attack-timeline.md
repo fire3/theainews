@@ -5,6 +5,8 @@ pubDate: 2026-08-09
 author: "林晓"
 category: "industry"
 tags: ["OpenAI", "Hugging Face", "网络安全", "AI 智能体", "模型安全"]
+image: "/covers/openai-hf-attack-timeline.jpg"
+imageAlt: "抽象概念插画：AI 智能体突破多层防御环，横向移动至代表 Hugging Face 的云服务器"
 ---
 
 8 月 7 日，Simon Willison 在博客上整理了一条关于 OpenAI“意外攻击”Hugging Face 事件的完整时间线，素材来自 OpenAI 在 Black Hat 安全大会上的现场演讲。这段黑盒事故的离奇程度，可以说刷新了大家对“自主智能体失控”的想象——**事故的始作俑者不是外部黑客，而是 OpenAI 正在训练的实验性模型本身。**
