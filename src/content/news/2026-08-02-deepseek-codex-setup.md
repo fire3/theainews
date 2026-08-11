@@ -6,7 +6,7 @@ author: "林晓"
 category: "tutorial"
 tags: ["DeepSeek", "Codex", "配置教程", "AI 编程", "API"]
 image: "/covers/deepseek-codex-setup.jpg"
-imageAlt: "终端设置面板与代码编辑器被一条连接线串起、示意一份配置三端通用的扁平插画封面"
+imageAlt: "深色科技封面：左侧白色大标题 DeepSeek 接入 Codex，右侧三个设备图标通过发光数据流汇聚到中央节点，示意一份配置三端通用"
 ---
 
 OpenAI 的 Codex 是当下最常用的 AI 编程助手之一，而 DeepSeek 的 API 原生兼容 Codex 所用的 Responses API 协议——这意味着你可以把 Codex 的底层模型换成 DeepSeek，用更便宜的价格获得同样的编码助手体验。DeepSeek 官方文档给出了完整的接入方法，本文把步骤整理成一份可以直接照着做的教程。
