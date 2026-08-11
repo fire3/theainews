@@ -5,6 +5,8 @@ pubDate: 2026-08-11
 author: "林晓"
 category: "tutorial"
 tags: ["DeepSeek", "RTX PRO 6000", "vLLM", "Blackwell", "sm_120", "推理部署", "教程"]
+image: "/covers/2026-08-11-deepseek-v4-flash-rtx-pro6000.jpg"
+imageAlt: "深色技术风格封面：四张 RTX PRO 6000 零改动部署 DeepSeek-V4-Flash，标注实测 133 tok/s 与 256K 上下文"
 ---
 
 DeepSeek-V4-Flash-DSpark（FP8 线性层 + MXFP4 专家，约 157 GB）这种规模的 MoE 检查点，通常被默认成"必须定制内核、打补丁甚至换推理框架才能跑"。但 hermia-ai 发布的一份部署实录给出了相反的证据：用 **4 张 NVIDIA RTX PRO 6000 Blackwell（sm_120，每张 96 GB）**，搭配**原版 vLLM 0.25.1**——不 fork、不打补丁、不用 Docker，两次 `pip install` 加一条 `vllm serve` 就能起服务。实测单流解码约 **133 tok/s**，OpenAI 与 Anthropic 两套工具调用协议全部通过。所有数字都来自 2026 年 7 月 18 日的真实硬件。
