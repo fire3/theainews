@@ -6,7 +6,7 @@ author: "林晓"
 category: "tutorial"
 tags: ["CUDA", "GPU", "性能优化", "深度学习", "教程"]
 image: "/covers/cuda-graph-intro.jpg"
-imageAlt: "GPU 显卡上方展示内核依赖关系树形图、下方一条时间轴示意一次性提交的扁平插画封面"
+imageAlt: "暖色手绘封面：左侧大标题 CUDA Graph 入门与副标题「一次打包，反复执行」，右侧 DAG 节点图被虚线框打包并指向 GPU 芯片"
 ---
 
 训练大模型时，GPU 经常"空转"——不是算不过来，而是等 CPU 喂活。深度学习框架每执行一个算子，背后都要经过 Python 到 C++、到 CUDA runtime、再到驱动的层层调度，单次启动开销可能高达几十到上百微秒。当内核本身只跑几微秒时，GPU 大部分时间都在等 CPU。CUDA Graph 就是为了解决这个问题而生的：把一串 GPU 操作连同它们的依赖关系打包成一张图，一次性提交、反复执行。
