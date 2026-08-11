@@ -6,7 +6,7 @@ author: "林晓"
 category: "tools"
 tags: ["OpenAnt", "Knostic", "AI安全", "漏洞发现", "漏洞扫描", "开源工具"]
 image: "/covers/openant-vuln-scanner.jpg"
-imageAlt: "一位受限攻击者人设的 AI 探员在代码迷宫中逐层筛选漏洞的抽象插画"
+imageAlt: "深色技术风格封面：OpenAnt 两阶段漏斗从海量代码单元收敛到三个确认漏洞，传达'打穿才算漏洞'"
 ---
 
 # OpenAnt 深度调研：Knostic 如何用"受限人设"的 LLM 找到真实可利用的漏洞
