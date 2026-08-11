@@ -6,7 +6,7 @@ author: "林晓"
 category: "tutorial"
 tags: ["smevals", "模型评测", "LLM", "开源工具", "教程"]
 image: "/covers/smevals-eval-suite.jpg"
-imageAlt: "从评测文件夹经带评分条的终端到图表看板的评测流程扁平插画封面"
+imageAlt: "浅色杂志编辑风封面：左侧标题 smevals 上手，右侧扁平信息图展示从评测目录经任务与配置到终端评分看板的评测流程"
 ---
 
 前沿模型的进步肉眼可见，但价格也在跟着涨：GPT-5.5 和 5.6 Sol 的价格是 GPT-5.4 的两倍，Claude Fable 5 是 Opus 4.8 的两倍，连 Google 主打便宜的 Gemini 3.5 Flash-Lite 都比上一代贵了。与此同时，便宜模型的选项从未如此丰富：能在小设备上跑起来的本地模型能力暴涨，头部开源模型也在以惊人的速度逼近闭源竞品——价格却低得多。
