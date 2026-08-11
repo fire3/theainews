@@ -91,6 +91,19 @@ KV 池轻松装得下一百万 token，所以"顺手把 `--max-model-len` 设成
 
 > 还有一个常见的启动报错值得记下来：`NotImplementedError: DeepGEMM MegaMoE requires SM100 GPUs` 不是硬件不行的意思，而是需要显式指定 `--kernel-config '{"moe_backend":"marlin"}'` 让 MoE 走 MARLIN 后端。
 
+## 补充调研：vLLM 0.26/0.27 支持 sm_120 上的 DSpark 了吗？
+
+截至 2026 年 8 月 11 日，**答案是否定的**：vLLM 0.26.0 与 0.27.0 的正式版本都没有把 NVIDIA sm_120 上的 DSpark 列为受支持能力。[v0.26.0 发布说明](https://github.com/vllm-project/vllm/releases/tag/v0.26.0)里 DSpark 投机解码只写了 AMD（#47419）和 XPU（#47677）两条；[v0.27.0](https://github.com/vllm-project/vllm/releases/tag/v0.27.0)（2026-08-10 发布）同样没有任何 NVIDIA sm_120 DSpark 的条目。真正把 SM120/121 + DSpark 作为完整路径提供的 [PR #41834](https://github.com/vllm-project/vllm/pull/41834)（jasl）至今仍未合并（8 月 10 日还有更新，验证头 8 月 9 日同步到 `upstream/main`）——想现在就在 RTX PRO 6000 上跑 DSpark，仍然只能走它的分支或社区 fork。
+
+更值得注意的是：即使拿 0.26.0/0.26.1rc1/当前 main 硬开 DSpark，也会在启动或预热阶段崩溃，这条路径在 [issue #50720](https://github.com/vllm-project/vllm/issues/50720)（open）里被反复复现。讨论把根因定位到了 FlashInfer 而非 vLLM：
+
+- FlashInfer 的 SM120 稀疏 MLA DSV4 **解码**内核只为 `topk ∈ {128, 512, 1024}` 实例化；DSpark 草稿的 `dspark_markov_rank=256` 作为主索引命中不了分发表，于是掉进一个拒绝小批量（`num_tokens > 64`）的 prefill 编排器，报错形如 `Check failed: num_tokens > 64 ... got num_tokens=5/7`。
+- 报错里的 5/7 是 `num_speculative_tokens`，是个误导项——任何 `topk=256` 的小批量形状都会踩中，RTX PRO 6000（SM120）与 DGX Spark/GB10（SM121）、开不开 expert parallel 都能复现。
+- FlashInfer 侧的修复 [PR #4380](https://github.com/flashinfer-ai/flashinfer/pull/4380)（补 top-k 192/256）已于 2026-08-08 合并，第一个包含它的发布是 **v0.6.16.post4**（2026-08-10）；但 vLLM v0.27.0 仍把 FlashInfer 钉在 0.6.16.post3（#50892），所以官方发布版至今没有内置这个修复——想绕开崩溃，只能像本仓库做的那样手工升级 flashinfer wheel。
+- 崩溃之外还有一串未合入的 vLLM 侧修复：PR #51538（让 DSV4 稀疏 MLA 在 plain decode / MTP / DSpark 三种模式下端到端可用，8× RTX PRO 6000 验证）、PR #48304（MTP 层 `compress_ratio`，DSpark 正确运行必需）、issue #51009（0.26.1rc1 上 DSpark 接受率在 position 0 之后塌陷）、issue #51593（MTP 批量排空后挂起）。vLLM 侧曾有一个绕过补丁 #51254（把 DSpark SWA 索引宽度取整到可分发的 topk），已关闭未合并，被 FlashInfer 的修复取代。
+
+所以"原版路径没有投机解码"这条结论在 0.26/0.27 上依然成立，只是机制从"内核要求 ≥64 token 批量"细化成了"FlashInfer SM120 分发表缺 topk=256"。官方完整支持的预计节奏是等 0.27.x 补丁或 0.28 把 FlashInfer 0.6.16.post4+ 与上述修复一起带上；在那之前，sm_120 上的 DSpark 用户只能选择 fork 或手工补丁。
+
 ## 工具调用与 Claude Code
 
 `--tool-call-parser deepseek_v4 --reasoning-parser deepseek_v4` 下两套 API 都能用：
