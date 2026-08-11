@@ -5,6 +5,8 @@ pubDate: 2026-08-11
 author: "林晓"
 category: "tools"
 tags: ["Firecrawl", "AnyDoc", "文档解析", "开源", "RAG", "Markdown"]
+image: "/covers/2026-08-11-firecrawl-anydoc-pdf-inspector.jpg"
+imageAlt: "浅色杂志风封面：14 种文档格式图标汇聚为统一 Markdown 输出，标注 4.4ms 中位耗时与 81 分盲评质量"
 ---
 
 8 月 6 日，Firecrawl 宣布开源两套文档解析库：pdf-inspector 专注 PDF，AnyDoc 处理其余格式。AnyDoc 号称用单个零依赖的 Rust 库覆盖 Word、Excel、PowerPoint、OpenDocument、RTF、EPUB、CSV 等 14 种格式，统一输出 GitHub Flavored Markdown，中位转换耗时仅 4.4 毫秒，无需 API Key、无需系统依赖。
