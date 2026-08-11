@@ -6,7 +6,7 @@ author: "林晓"
 category: "tutorial"
 tags: ["CUDA", "GPU", "性能优化", "深度学习", "教程"]
 image: "/covers/cuda-graph-constraints.jpg"
-imageAlt: "GPU 被冰封在警示底座上方、内部冻结着雪花状依赖图的扁平插画封面，示意静态冻结的限制"
+imageAlt: "深色杂志风封面：左侧白色标题 CUDA Graph 的边界，右侧 DAG 节点图被带珊瑚红锁扣的冻结框架包围，示意九类静态限制"
 ---
 
 CUDA Graph 能大幅削减内核启动开销，但它不是万能药——CUDA runtime 给图施加了九类根本性限制。搞清楚这些边界，才能判断你的工作负载适不适合图捕获，以及怎么在限制之内把图用好。本文是 CUDA Graph 入门篇的姊妹篇，逐一拆解这些约束。
