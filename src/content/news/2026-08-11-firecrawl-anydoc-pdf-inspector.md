@@ -5,6 +5,7 @@ pubDate: 2026-08-11
 author: "林晓"
 category: "tools"
 tags: ["Firecrawl", "AnyDoc", "文档解析", "开源", "RAG", "Markdown"]
+topStory: true
 image: "/covers/2026-08-11-firecrawl-anydoc-pdf-inspector.jpg"
 imageAlt: "浅色杂志风封面：14 种文档格式图标汇聚为统一 Markdown 输出，标注 4.4ms 中位耗时与 81 分盲评质量"
 ---

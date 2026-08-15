@@ -5,6 +5,7 @@ pubDate: 2026-08-14
 author: "林晓"
 category: "tools"
 tags: ["DeepSeek", "Harness", "Agent", "开源", "Cordis"]
+topStory: true
 image: "/images/dsh-logo.png"
 imageAlt: "DeepSeek Harness「黑鲸」logo"
 ---

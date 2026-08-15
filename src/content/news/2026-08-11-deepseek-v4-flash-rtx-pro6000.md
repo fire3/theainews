@@ -5,6 +5,7 @@ pubDate: 2026-08-11
 author: "林晓"
 category: "tutorial"
 tags: ["DeepSeek", "RTX PRO 6000", "vLLM", "Blackwell", "sm_120", "推理部署", "教程"]
+topStory: true
 image: "/covers/2026-08-11-deepseek-v4-flash-rtx-pro6000.jpg"
 imageAlt: "深色技术风格封面：四张 RTX PRO 6000 零改动部署 DeepSeek-V4-Flash，标注实测 133 tok/s 与 256K 上下文"
 ---

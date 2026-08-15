@@ -5,6 +5,7 @@ pubDate: 2026-08-15
 author: "林晓"
 category: "industry"
 tags: ["Hugging Face", "开源模型", "Qwen", "智能体", "行业报告"]
+topStory: true
 image: "/images/state-of-open-models-summer-2026/frontier-ceiling-by-country.png"
 imageAlt: "2026 年中美实验室月度最大开源模型发布参数量对比"
 ---

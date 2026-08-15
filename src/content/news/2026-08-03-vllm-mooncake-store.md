@@ -7,7 +7,6 @@ category: "research"
 tags: ["Mooncake", "vLLM", "KV 缓存", "智能体", "推理系统"]
 image: "/covers/mooncake-store.png"
 imageAlt: "多个 vLLM 实例通过 RDMA 共享 Mooncake 分布式 KV 缓存池"
-topStory: true
 ---
 
 智能体负载正在改变 LLM 推理服务的形态：Claude Code、OpenClaw 这类长期运行的自主系统，每一轮都要在"推理"与"行动"之间循环，上下文不断累积，却只有少量新 token。如果每个实例各自为战，这些被反复读取的前缀只能一遍遍重算。vLLM 团队给出的答案是把 KV 缓存从单机搬到集群——通过 Mooncake Store 构建分布式 KV 缓存池。

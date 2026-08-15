@@ -5,6 +5,7 @@ pubDate: 2026-08-12
 author: "林晓"
 category: "tools"
 tags: ["vLLM", "NVIDIA", "Nemotron", "投机解码", "DSpark", "推理部署"]
+topStory: true
 ---
 
 8 月 10 日，vLLM 团队与 NVIDIA Nemotron 团队联合宣布 **Nemotron 3.5 Lightning 的 Day-0 支持**：模型发布当天即可在 vLLM 上通过 OpenAI 兼容 API 完成生产级部署，连接现有智能体框架与企业自动化系统。与 vLLM 的持续批处理（continuous batching）、前缀缓存（prefix caching）和投机解码能力配合，开发者可在本地设备、边缘、数据中心与云端统一服务这一模型。

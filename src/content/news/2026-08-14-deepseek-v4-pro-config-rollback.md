@@ -5,6 +5,7 @@ pubDate: 2026-08-14
 author: "林晓"
 category: "models"
 tags: ["DeepSeek", "V4 Pro", "Hugging Face", "发布事故", "API"]
+topStory: true
 ---
 
 8 月 13 日凌晨，DeepSeek 延续"不上发布会、不发海报"的风格，悄悄更新 API 文档，上线了 V4 Pro 正式版（DeepSeek-V4-Pro-0813）。一天之内口碑两极分化：官方跑分中 **Terminal-Bench 2.1 达 87.9 分**，距 Claude Fable 5（88.0 分）仅差 0.1 分；但实测党接入真实业务后反馈体感不及预期，Artificial Analysis 综合得分仅 **53 分**，只比参数量小得多的 V4 Flash 高 1 分。13 日下午，官网撤下 V4 Pro 正式版横幅与开放平台公告，外界一度以为模型遭遇回滚。

@@ -5,6 +5,7 @@ pubDate: 2026-08-14
 author: "林晓"
 category: "models"
 tags: ["MiniMax", "音乐生成", "开源模型", "Music 3.0", "流匹配", "RVQ"]
+topStory: true
 image: "/covers/2026-08-14-minimax-music-3-0.jpg"
 imageAlt: "构图中的乐章封面：五线谱上流淌的声波与八层量化码本，标注 Music 3.0 一次生成五分钟完整歌曲"
 ---

@@ -7,7 +7,6 @@ category: "industry"
 tags: ["AI 安全", "DeepSeek", "自主攻击", "Hermes Agent"]
 image: "/covers/deepseek-telegram.jpg"
 imageAlt: "DeepSeek 与 Telegram 结合的自主攻击示意图"
-topStory: true
 ---
 
 Palo Alto Networks 旗下威胁研究团队 Unit 42 披露，一名使用中文的威胁行为者借助开源 Hermes Agent 框架调用 DeepSeek，自主发起网络攻击。

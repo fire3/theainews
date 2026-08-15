@@ -7,7 +7,6 @@ category: "research"
 tags: ["vLLM", "Mixture-of-Models", "语义路由", "推理系统"]
 image: "/covers/vllm-sr-mom.jpg"
 imageAlt: "Mixture-of-Models 把异构模型组合成一个模型体验"
-topStory: true
 ---
 
 大多数 AI 应用都围绕单个模型端点构建。但随着模型、设备与部署约束日益多样化，没有任何单一模型能适配每一个请求或环境。真正的问题是如何通过一个接口协调、评测并服务多个专用模型——vLLM Semantic Router 团队把这种系统化方法称为 **Mixture-of-Models（MoM，模型混合）**。

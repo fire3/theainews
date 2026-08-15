@@ -5,6 +5,7 @@ pubDate: 2026-08-12
 author: "林晓"
 category: "research"
 tags: ["OpenAI", "Anthropic", "Google", "思维链", "模型安全"]
+topStory: true
 image: "/covers/chatgpt-hidden-reasoning.png"
 imageAlt: "研究者展示 ChatGPT 隐藏思维链中反复出现的『But marinade』等无法理解词汇"
 ---

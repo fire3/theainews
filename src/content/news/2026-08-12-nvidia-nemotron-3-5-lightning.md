@@ -5,6 +5,7 @@ pubDate: 2026-08-12
 author: "林晓"
 category: "models"
 tags: ["NVIDIA", "Nemotron", "MoE", "智能体", "开源模型", "推理优化"]
+topStory: true
 ---
 
 8 月 11 日，英伟达发布开源模型 **Nemotron 3.5 Lightning**，并同步推出模型路由库 **NeMo Switchyard**。这是一款 30B 参数的混合专家（MoE）模型，单次推理仅激活 **3B 参数**，定位是长期运行智能体的"执行层"：处理工具调用、结果校验、子智能体委派等高调用量任务，而把规划与复杂推理交给 Nemotron 3 Ultra 等前沿推理模型。
