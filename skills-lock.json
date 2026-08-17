@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "theainews-cover-image": {
+      "source": "fire3/theainews-skills",
+      "sourceType": "github",
+      "skillPath": "skills/theainews-cover-image/SKILL.md",
+      "computedHash": "2c53667027c7f4ee750cbe60ce321d7ca4b8dcc2d5d499f51efd8cb5faa43431"
+    }
+  }
+}
