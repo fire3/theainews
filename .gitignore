@@ -37,3 +37,6 @@ Thumbs.db
 .agents/
 .codex/
 .mimocode/
+
+# Image-generation prompt assets (local only)
+prompts/
