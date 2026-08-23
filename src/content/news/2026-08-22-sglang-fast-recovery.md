@@ -12,7 +12,7 @@ imageAlt: "高对比深色杂志风封面：SGLang 秒级重启，琥珀色强�
 
 模型越来越大，推理引擎的冷启动就越来越痛。Ling-2.6-1T 这类万亿级模型，重启一次要等 **8.8 分钟**才能重新接客。LMSYS 联合蚂蚁、阿里的团队正是冲着这个痛点，在 SGLang 里引入了 **Weight Cache Daemon**（权重缓存守护进程）：让权重常驻 GPU 显存，引擎重启时用 CUDA IPC **零拷贝**直接映射，把权重加载从分钟级压到亚秒级。
 
-这是 SGLang **Fast Engine Recovery Framework（快速恢复框架）**的第一阶段，最终目标是对生产推理服务做到 **<10 秒冷启动、<1 秒热备切换**。
+这是 SGLang <strong>Fast Engine Recovery Framework（快速恢复框架）</strong>的第一阶段，最终目标是对生产推理服务做到 **<10 秒冷启动、<1 秒热备切换**。
 
 ## 核心结果
 

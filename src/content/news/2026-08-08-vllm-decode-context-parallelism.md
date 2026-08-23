@@ -124,7 +124,7 @@ vllm serve Qwen/Qwen3-235B-A22B \
 - **加固 prefill/decode（P/D）分离**：让 DCP 在分离式服务部署里也足够稳健
 - **扩大覆盖面**：支持更多后端，并集成混合模型与 Dynamic Chunked Pipeline Parallelism，让更广的工作负载受益
 
-社区也在把 DCP 扩展到 GLM-5.2、Kimi K3 等更多模型，并有一条更长期的 **Prefill Context Parallelism（PCP）**路线图。团队正在为 Kimi K3 做 DCP 性能基准，成熟后会公布结果。
+社区也在把 DCP 扩展到 GLM-5.2、Kimi K3 等更多模型，并有一条更长期的 <strong>Prefill Context Parallelism（PCP）</strong>路线图。团队正在为 Kimi K3 做 DCP 性能基准，成熟后会公布结果。
 
 ## 核心总结
 

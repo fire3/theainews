@@ -17,7 +17,7 @@ imageAlt: "AI 安全代理扫描海量提交并自动修复漏洞的抽象插画
 
 Codex Security 是 OpenAI 推出的**应用安全代理（application security agent）**，帮助安全与工程团队"发现、确认并修复代码中的安全漏洞"（[官方概述](https://learn.chatgpt.com/docs/security)）。它的定位不是又一款静态扫描工具，而是把前沿模型的推理能力与自动化验证结合起来，覆盖从漏洞发现到修复验证的完整链路。
 
-它的前身是 **Aardvark**，OpenAI 于 2025 年 10 月以私有测试（private beta）形式发布的"智能体安全研究员"（[Aardvark 发布文](https://openai.com/index/introducing-aardvark/)）；2026 年 3 月 6 日，Aardvark 正式更名为 **Codex Security**，并作为**研究预览（research preview）**向 ChatGPT Pro、Enterprise、Business、Edu 客户开放，首月免费（[研究预览公告](https://openai.com/index/codex-security-now-in-research-preview/)）。2026 年 7 月前后，其 CLI 与 TypeScript SDK 以 `@openai/codex-security` 包公开开源（Apache-2.0），仓库为 [openai/codex-security](https://github.com/openai/codex-security)（[包信息](https://github.com/openai/codex-security/blob/main/sdk/typescript/package.json)）。
+它的前身是 **Aardvark**，OpenAI 于 2025 年 10 月以私有测试（private beta）形式发布的"智能体安全研究员"（[Aardvark 发布文](https://openai.com/index/introducing-aardvark/)）；2026 年 3 月 6 日，Aardvark 正式更名为 **Codex Security**，并作为<strong>研究预览（research preview）</strong>向 ChatGPT Pro、Enterprise、Business、Edu 客户开放，首月免费（[研究预览公告](https://openai.com/index/codex-security-now-in-research-preview/)）。2026 年 7 月前后，其 CLI 与 TypeScript SDK 以 `@openai/codex-security` 包公开开源（Apache-2.0），仓库为 [openai/codex-security](https://github.com/openai/codex-security)（[包信息](https://github.com/openai/codex-security/blob/main/sdk/typescript/package.json)）。
 
 产品覆盖四个使用面（[官方概述](https://learn.chatgpt.com/docs/security)）：
 

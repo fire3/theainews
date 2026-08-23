@@ -25,7 +25,7 @@ imageAlt: "深色技术风格封面：OpenAnt 两阶段漏斗从海量代码单�
 
 技术上，OpenAnt 是一个 **Go CLI 包裹的 Python 引擎**：Go 侧负责用户工作区、项目/配置/检查点、进程生命周期等"运维"事务，Python 侧（`libs/openant-core`）负责所有与代码分析相关的逻辑，两者通过一个刻意保持非常窄的 JSON 信封契约通信（[ARCHITECTURE.md](https://github.com/knostic/OpenAnt/blob/main/ARCHITECTURE.md)）。
 
-项目在 2026 年 3 月由 Knostic 负责人 Gadi Evron 在官方博客正式宣布开源，采用 **Apache 2.0** 许可证（[博客](https://knostic.ai/blog/openant)）。仓库本身定位仍是"研究项目"，部分功能处于 beta 阶段，官方会对扫描发现的漏洞走**协调披露（coordinated vulnerability disclosure）**流程，也欢迎社区贡献。
+项目在 2026 年 3 月由 Knostic 负责人 Gadi Evron 在官方博客正式宣布开源，采用 **Apache 2.0** 许可证（[博客](https://knostic.ai/blog/openant)）。仓库本身定位仍是"研究项目"，部分功能处于 beta 阶段，官方会对扫描发现的漏洞走<strong>协调披露（coordinated vulnerability disclosure）</strong>流程，也欢迎社区贡献。
 
 ## 二、为什么开源：给维护者一双"跑在攻击者前面"的眼睛
 
@@ -35,7 +35,7 @@ Knostic 开源的动机在 README 里写得很直白，可以概括为三点：
 
 **第二，这不是 Knostic 的主业。** Knostic 自己聚焦于**保护 AI 代理与编码助手**（防止它们删掉你的硬盘、泄露代码，并管控 MCP 服务器、扩展、技能等供应链风险），漏洞研究/应用安全并不是它的核心业务，加上公司本身喜欢开源，于是决定以 Apache 2 协议把 OpenAnt 放出来。
 
-**第三，明确"不竞争"的定位。** README 特意点名：你可能听说过 OpenAI 的 **Aardvark（现已更名 Codex Security）**和 Anthropic 的 **Claude Code Security**，Knostic 对这些"零竞争意图"（zero intention of competing with them）。
+**第三，明确"不竞争"的定位。** README 特意点名：你可能听说过 OpenAI 的 <strong>Aardvark（现已更名 Codex Security）</strong>和 Anthropic 的 **Claude Code Security**，Knostic 对这些"零竞争意图"（zero intention of competing with them）。
 
 这是一次很有意思的行业定位：当 OpenAI、Anthropic 这些巨头把"AI 漏洞扫描"做成自家的商业安全产品时，Knostic 选择把同类能力开源出来、交给开源生态自用。也正因为不靠它盈利，"免费扫描开源仓库"的服务才说得通。
 

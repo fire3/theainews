@@ -122,7 +122,7 @@ W ≈ W_high + (W − W_high) × 256
 
 ### 端到端推理
 
-在 8× NVIDIA H20 上，**Hy3-FP8（TP8 + FP8 KV cache）**同时启用 HPC-Ops Attention 与 MoE，8K 输入、4K 输出：
+在 8× NVIDIA H20 上，<strong>Hy3-FP8（TP8 + FP8 KV cache）</strong>同时启用 HPC-Ops Attention 与 MoE，8K 输入、4K 输出：
 
 | Batch | SGLang 默认 TPOT | HPC-Ops TPOT | 提升幅度 |
 |---|---|---|---|

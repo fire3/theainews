@@ -84,11 +84,11 @@ draft 是一个单层 NEXTN 模型、自回归地跑：五步但只有四次前�
 
 测量设置有三个性质决定了下文的每个数字。
 
-**Profiler 会放大 host 侧事件。**CUPTI 会给它记录的每个 host 事件加开销。同一配置下，被 profile 的一步测出 5.2ms，而真实的一步（从无 profile 运行里用 TPOT×接受长度反推）是 4.9ms。这 0.3ms 的差距和我们想推理的 host 侧效应同量级，所以一条被 profile 的 trace 可能显示出实际上并不存在的跨 rank 等待。GPU kernel 时长来自硬件时间戳、比 host 侧计时更可信，但也并非免疫：trace 仍会扰动启动时序、并发、缓存状态和 CUDA 图执行。所以这里每一条 host 侧结论都先做了「有无 profiler 的标定」。
+<strong>Profiler 会放大 host 侧事件。</strong>CUPTI 会给它记录的每个 host 事件加开销。同一配置下，被 profile 的一步测出 5.2ms，而真实的一步（从无 profile 运行里用 TPOT×接受长度反推）是 4.9ms。这 0.3ms 的差距和我们想推理的 host 侧效应同量级，所以一条被 profile 的 trace 可能显示出实际上并不存在的跨 rank 等待。GPU kernel 时长来自硬件时间戳、比 host 侧计时更可信，但也并非免疫：trace 仍会扰动启动时序、并发、缓存状态和 CUDA 图执行。所以这里每一条 host 侧结论都先做了「有无 profiler 的标定」。
 
-**微基准对冷权重 kernel 跑得过于乐观。**一个循环反复调用某个 kernel，会让它那 2.6MB 的 gate 权重常驻在 L2；而真实模型会在前后两次调用同一层之间，用约 94MB 的 expert 流量把 L2 冲掉。热态 7µs，冷态 11µs——足以翻转与库 GEMV 的相对排序。
+<strong>微基准对冷权重 kernel 跑得过于乐观。</strong>一个循环反复调用某个 kernel，会让它那 2.6MB 的 gate 权重常驻在 L2；而真实模型会在前后两次调用同一层之间，用约 94MB 的 expert 流量把 L2 冲掉。热态 7µs，冷态 11µs——足以翻转与库 GEMV 的相对排序。
 
-**Peak 吞吐是单窗口统计。**基准的 peak 数是固定 1 秒网格上的最大值，所以带有约 ±5% 的相位带：TTFT/TPOT 平移会重新切片网格，一个把 Mean 吞吐提升 2.3% 的改动可能打印成从 909 掉到 858。两者在固定 seed 下都能精确复现，所以可复现性并不能把信号和相位分开。这里的 A/B 决策用 **Mean TPOT × 平均接受长度**。这个乘积是对步时间的一种派生估计而非实测，但它在多次运行间稳定、且对这些运行里的 accept-length 漂移不敏感，正是 A/B 判据需要的。团队报告 peak，但从不针对它调优。
+<strong>Peak 吞吐是单窗口统计。</strong>基准的 peak 数是固定 1 秒网格上的最大值，所以带有约 ±5% 的相位带：TTFT/TPOT 平移会重新切片网格，一个把 Mean 吞吐提升 2.3% 的改动可能打印成从 909 掉到 858。两者在固定 seed 下都能精确复现，所以可复现性并不能把信号和相位分开。这里的 A/B 决策用 **Mean TPOT × 平均接受长度**。这个乘积是对步时间的一种派生估计而非实测，但它在多次运行间稳定、且对这些运行里的 accept-length 漂移不敏感，正是 A/B 判据需要的。团队报告 peak，但从不针对它调优。
 
 正确性有独立关卡，每个改动留下来之前都要过：256-token greedy 生成的**字节级精确**对比、接受长度变化在 0.05 以内、以及在交错 temperature 采样的请求之后重跑一次 greedy 以捕捉状态污染。那些合理地改变了舍入的改动（bf16 gate、单次舍入的 combine）在 commit message 里写明，并在接受长度与任务指标上验证，而非字节一致性。
 
@@ -130,9 +130,9 @@ Run-ahead 也改变了 host 成本的结构。不再每个 rank 每步都直接�
 
 团队接了三链条：MoE 主链（`moe_align` → up-GEMM → activation → down-GEMM → combine → all-reduce）、router 链（norm → gate matvec → top-k）、和 KDA 链（`conv1d_update` → recurrent delta-rule → gated norm）。两个设计点很关键。
 
-**生产者无关的加载放在 wait 之前。**这就是上图全部的门道，也是让 PDL 不只是「针对延迟受限 kernel 的启动开销消除」的原因。
+<strong>生产者无关的加载放在 wait 之前。</strong>这就是上图全部的门道，也是让 PDL 不只是「针对延迟受限 kernel 的启动开销消除」的原因。
 
-**Inductor 生成的 kernel 承载不了 PDL 属性。**小 M 的 MoE combine 是一个 `torch.compile` 生成的 kernel；要入链就得把它换成仓库里的 Triton reduction 加 GDC。这有个数值副作用：fp32 的 `sum × scale` 只做一次最终 cast，而旧路径会舍入两次。结果略更精确、但不再 bit 相等——commit message 里写明。
+<strong>Inductor 生成的 kernel 承载不了 PDL 属性。</strong>小 M 的 MoE combine 是一个 `torch.compile` 生成的 kernel；要入链就得把它换成仓库里的 Triton reduction 加 GDC。这有个数值副作用：fp32 的 `sum × scale` 只做一次最终 cast，而旧路径会舍入两次。结果略更精确、但不再 bit 相等——commit message 里写明。
 
 后来依据 PTX `griddepcontrol` 的一个发现升级了语义：`launch_dependents` 只释放依赖者的**启动**，而消费者的 `wait` 总是栅栏在生产者 grid 完全结束后。把触发器从生产者末尾移到生产者自己的 wait 之后紧接处，能让消费者 prologue 与生产者 body 的重叠超过仅仅尾巴，前提是：消费者仍要在提前启动与每次读取生产者输出之间自己保留 `gdc_wait()`。这是每个消费者各自的属性、不是普遍保证，所以逐 kernel 检查并转换了六个。提前触发买到的东西也不确定：驱动可能提前启动一个依赖 grid，重叠多少取决于当时的调度和资源压力。`fused_moe` 用 `M ≤ 512` 检查门控它：prefill 形状下提前释放大消费者 grid 会从生产者偷走 SM，而 decode 形状下则是纯收益。
 
@@ -140,13 +140,13 @@ PDL 是纯调度语义。累计顺序不变的改动保持 bit 级一致；gate 
 
 ## 两个融合加一次重调
 
-**`moe_align`，pair 轴。**Triton fused-MoE GEMM 按 `block_size` 瓦片消费 token，每行共享一个 expert，`moe_align_block_size` 构建这个置换。通用路径需要两次 kernel 启动：每个 expert 的偏移定稿前、任何 token 都无法放置，这些偏移来自一次 grid 级扫描，而设备级 barrier 只存在于 kernel 边界。单 launch 变体存在，但它把 per-thread 的 expert 计数器暂存在 shared memory，因此限于 64 个 expert 以下；513-expert 的 decode 总是付两次启动。
+<strong>`moe_align`，pair 轴。</strong>Triton fused-MoE GEMM 按 `block_size` 瓦片消费 token，每行共享一个 expert，`moe_align_block_size` 构建这个置换。通用路径需要两次 kernel 启动：每个 expert 的偏移定稿前、任何 token 都无法放置，这些偏移来自一次 grid 级扫描，而设备级 barrier 只存在于 kernel 边界。单 launch 变体存在，但它把 per-thread 的 expert 计数器暂存在 shared memory，因此限于 64 个 expert 以下；513-expert 的 decode 总是付两次启动。
 
 替代方案在 pair 轴上工作：一次 [NP, NP] 的两两比较，给每个 (token, slot) 对在其 bucket 内一个稳定的秩、以及 bucket 人口，一次完成；每个 bucket 的 rank-0 代表再推导出 padded counts、bucket 有序的排他偏移、发布的 total 和 per-block expert id。没有任何量随 expert 数扩展，所以 expert 数限制消失。显而易见的替代——在 padded expert 轴上做直方图和 cumsum（最多 1024 个 bucket）——是对的，但会把约 3× 的单 SM 工作量放到关键路径上，比它替换的两个 kernel 还多。这正是让 pair 轴在此承担压力所在的原因。
 
 两处对参考实现的有意偏离都从消费者不变量出发论证：bucket 内顺序按 pair 索引稳定而非原子调度顺序（每个 pair 写自己的输出行，所以消费者顺序无关），以及超出已发布 total 的 buffer 尾部保持未写（消费者 CTA 在读它之前就提前退出）。一个悬崖：pairwise 张量是 O(NP²)。在 NP=64 时它们完全活在寄存器里（约 4µs，与 CUDA 双 kernel 路径相当），到 NP=256 时溢写到 local memory，每次 launch 约 230µs。派发闸门是硬性的 `numel ≤ 64`；更大的 batch 回退到 CUDA 路径。
 
-**up-GEMM 尾声里的 SwiGLU。**把 `silu(gate) * up` 折进 MoE up-GEMM 的尾声，每个 MoE 层省掉一个独立的 activation kernel，以及整个中间 buffer 的写后读。版式技巧是在权重加载时对 `w13` 做 per-expert 行交错，让 gate 和 up 落在同一输出瓦片的相邻偶/奇列。因为每个 GEMM 输出列是独立的点积，交错在 bit 级是中性的。
+<strong>up-GEMM 尾声里的 SwiGLU。</strong>把 `silu(gate) * up` 折进 MoE up-GEMM 的尾声，每个 MoE 层省掉一个独立的 activation kernel，以及整个中间 buffer 的写后读。版式技巧是在权重加载时对 `w13` 做 per-expert 行交错，让 gate 和 up 落在同一输出瓦片的相邻偶/奇列。因为每个 GEMM 输出列是独立的点积，交错在 bit 级是中性的。
 
 细心全花在 bit 对齐上。被替换的 kernel 用 `-use_fast_math` 编译，所以尾声逐指令复现它：`__expf` 用 `mul` + `ex2.approx.ftz`、`div.approx.ftz`、以及乘积后一次最终舍入。微妙之处：FlashInfer 在 `float` 里实例化 activation functor，所以 silu 在乘法前从不落进 bf16。在那里舍入会双重舍入、得到错误结果。
 
@@ -182,15 +182,15 @@ Profile 显示 KDA 解码是带宽受限的，主要是 K×V 状态上的 HBM �
 
 DSpark 算法本身是公开的。这里的工作是把那份公开配方适配到 Ling-3.0-flash、长上下文在线蒸馏、以及 batch-1 的 Blackwell serving 栈。团队的适配在四个方面不同。
 
-**分布对齐的数据。**主要用 Ling-3.0-flash 的后训练数据做蒸馏，所以 draft 训练在 serving 时会面对的分布上。蒸馏期间还用多种采样设置来提高轨迹多样性和推测解码下的鲁棒性。
+<strong>分布对齐的数据。</strong>主要用 Ling-3.0-flash 的后训练数据做蒸馏，所以 draft 训练在 serving 时会面对的分布上。蒸馏期间还用多种采样设置来提高轨迹多样性和推测解码下的鲁棒性。
 
-**消融驱动的 draft 设计。**不直接继承 Ling-3.0-flash 架构，而是对关键 draft 选择做系统消融，包括是否复用 Ling-3 的注意力结构、用哪种 RoPE 变体（部分还是交错）。留下接受长度/延迟权衡最好的设计。
+<strong>消融驱动的 draft 设计。</strong>不直接继承 Ling-3.0-flash 架构，而是对关键 draft 选择做系统消融，包括是否复用 Ling-3 的注意力结构、用哪种 RoPE 变体（部分还是交错）。留下接受长度/延迟权衡最好的设计。
 
-**与 serving 耦联的在线训练系统。**为长上下文和大规模在线训练构建了 **SplitServe Trainer**，一个单节点 8-GPU 框架，把资源在训练和 SGLang 推理之间对半分。训练期间，推理侧跑 target 前向为 draft 产生监督信号（如 target 隐藏状态）。这让「生成-训练」循环保持本地、削减 IO 开销、并提升长上下文工作负载的训练效率。
+<strong>与 serving 耦联的在线训练系统。</strong>为长上下文和大规模在线训练构建了 **SplitServe Trainer**，一个单节点 8-GPU 框架，把资源在训练和 SGLang 推理之间对半分。训练期间，推理侧跑 target 前向为 draft 产生监督信号（如 target 隐藏状态）。这让「生成-训练」循环保持本地、削减 IO 开销、并提升长上下文工作负载的训练效率。
 
 ![SplitServe Trainer 布局](/images/blog/ling3-flash-batch1/07_splitserve_trainer.jpg)
 
-**接受感知的优化。**在公开 DSpark 损失之上，加了一个与接受长度相关的 loss，让 draft 不只训练 token 级和对齐中间目标，还训练在 target verify 下更长的接受前缀。
+<strong>接受感知的优化。</strong>在公开 DSpark 损失之上，加了一个与接受长度相关的 loss，让 draft 不只训练 token 级和对齐中间目标，还训练在 target verify 下更长的接受前缀。
 
 ![接受感知优化](/images/blog/ling3-flash-batch1/08_acceptance_optimization.jpg)
 
