@@ -230,10 +230,13 @@ figure {
   display: flex;
   gap: 20px;
   height: var(--card-height);
+  align-items: stretch;
 }
 
 .home-img {
   flex: 0 0 240px;
+  align-self: stretch;
+  height: 100%;
   position: relative;
   border-radius: 6px;
   overflow: hidden;
@@ -764,7 +767,7 @@ figure {
 @media (max-width: 600px) {
   :root {
     --content-padding: 16px;
-    --card-height: 110px;
+    --card-height: auto;
   }
 
   .logo-area {
@@ -782,10 +785,14 @@ figure {
 
   .story-link {
     gap: 14px;
+    height: auto;
+    align-items: stretch;
   }
 
   .home-img {
-    flex: 0 0 100px;
+    flex: 0 0 96px;
+    align-self: center;
+    height: 54px;
   }
 
   .home-title {
