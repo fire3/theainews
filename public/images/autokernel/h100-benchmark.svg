@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1020" viewBox="0 0 1600 1020" role="img" aria-labelledby="title desc">
+  <title id="title">AutoKernel 在 H100 上的实测加速比</title>
+  <desc id="desc">按各算子最大测试尺寸统计，AutoKernel 的 Triton 起步 kernel 相比 PyTorch eager 在 RMSNorm 上达到 5.29 倍、Softmax 2.82 倍、交叉熵 2.21 倍；相比 torch.compile 在归约上达到 3.52 倍、Softmax 3.44 倍。但 matmul 与部分旋转位置编码配置仍慢于 eager。</desc>
+  <defs>
+    <linearGradient id="page-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5f9ff"/>
+      <stop offset="0.34" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="bar-eager" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="bar-compiled" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#cbd5e1"/>
+      <stop offset="1" stop-color="#94a3b8"/>
+    </linearGradient>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .kname { font-size: 19px; font-weight: 760; fill: #172033; }
+      .kshape { font-size: 14px; font-weight: 550; fill: #8a97a8; }
+      .tick { font-size: 15px; fill: #7c899c; }
+      .val { font-size: 15px; font-weight: 800; fill: #1d4ed8; }
+      .val-slow { font-size: 15px; font-weight: 800; fill: #b45309; }
+      .val-gray { font-size: 15px; font-weight: 750; fill: #64748b; }
+      .legend { font-size: 17px; font-weight: 650; fill: #475569; }
+      .foot { font-size: 16px; font-weight: 650; fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1020" fill="url(#page-bg)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">H100 上的实测加速比</text>
+    <text x="60" y="110" class="subtitle">各算子的最大测试尺寸 · FP16 · 全部 34 个配置通过五阶段正确性检查，零失败</text>
+
+    <!-- Legend -->
+    <g transform="translate(60,155)">
+      <rect x="0" y="-11" width="20" height="20" rx="5" fill="url(#bar-eager)"/>
+      <text x="31" y="5" class="legend">相对 PyTorch eager（cuBLAS / ATen）</text>
+      <rect x="405" y="-11" width="20" height="20" rx="5" fill="url(#bar-compiled)"/>
+      <text x="436" y="5" class="legend">相对 torch.compile（max-autotune）</text>
+    </g>
+
+    <g filter="url(#shadow)">
+      <rect x="1218" y="132" width="327" height="72" rx="18" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+    </g>
+    <text x="1381" y="165" text-anchor="middle" font-size="26" font-weight="850" fill="#1d4ed8">12 / 16</text>
+    <text x="1381" y="190" text-anchor="middle" font-size="15" font-weight="700" fill="#3b5f9b">配置胜过 torch.compile 的自动调优</text>
+
+    <!-- Grid -->
+    <g stroke="#eef2f7" stroke-width="1.4">
+      <line x1="598.6" y1="218" x2="598.6" y2="912"/>
+      <line x1="777.1" y1="218" x2="777.1" y2="912"/>
+      <line x1="955.7" y1="218" x2="955.7" y2="912"/>
+      <line x1="1134.3" y1="218" x2="1134.3" y2="912"/>
+      <line x1="1312.9" y1="218" x2="1312.9" y2="912"/>
+    </g>
+    <line x1="420" y1="218" x2="420" y2="912" stroke="#94a3b8" stroke-width="2"/>
+    <g class="tick" text-anchor="middle">
+      <text x="420" y="938">0</text>
+      <text x="598.6" y="938">1×</text>
+      <text x="777.1" y="938">2×</text>
+      <text x="955.7" y="938">3×</text>
+      <text x="1134.3" y="938">4×</text>
+      <text x="1312.9" y="938">5×</text>
+    </g>
+
+    <!-- RMSNorm -->
+    <text x="60" y="252" class="kname">RMSNorm</text>
+    <text x="60" y="276" class="kshape">8192 × 8192 · 2,788 GB/s（峰值 83%）</text>
+    <rect x="420" y="230" width="944.6" height="30" rx="6" fill="url(#bar-eager)"/>
+    <text x="1376.6" y="251" class="val">5.29×</text>
+    <rect x="420" y="274" width="505.4" height="30" rx="6" fill="url(#bar-compiled)"/>
+    <text x="937.4" y="295" class="val-gray">2.83×</text>
+
+    <!-- Softmax -->
+    <text x="60" y="352" class="kname">Softmax</text>
+    <text x="60" y="376" class="kshape">8192 × 8192 · 2,800 GB/s</text>
+    <rect x="420" y="330" width="503.6" height="30" rx="6" fill="url(#bar-eager)"/>
+    <text x="935.6" y="351" class="val">2.82×</text>
+    <rect x="420" y="374" width="614.3" height="30" rx="6" fill="url(#bar-compiled)"/>
+    <text x="1046.3" y="395" class="val-gray">3.44×</text>
+
+    <!-- Cross entropy -->
+    <text x="60" y="452" class="kname">交叉熵损失</text>
+    <text x="60" y="476" class="kshape">8192 × 32000 · 2,070 GB/s</text>
+    <rect x="420" y="430" width="394.6" height="30" rx="6" fill="url(#bar-eager)"/>
+    <text x="826.6" y="451" class="val">2.21×</text>
+    <rect x="420" y="474" width="525.0" height="30" rx="6" fill="url(#bar-compiled)"/>
+    <text x="957.0" y="495" class="val-gray">2.94×</text>
+
+    <!-- Rotary -->
+    <text x="60" y="552" class="kname">旋转位置编码</text>
+    <text x="60" y="576" class="kshape">2 × 32 × 4096 × 128 · 607 GB/s</text>
+    <rect x="420" y="530" width="316.1" height="30" rx="6" fill="url(#bar-eager)"/>
+    <text x="748.1" y="551" class="val">1.77×</text>
+    <rect x="420" y="574" width="108.9" height="30" rx="6" fill="url(#bar-compiled)"/>
+    <text x="540.9" y="595" class="val-slow">0.61×</text>
+
+    <!-- LayerNorm -->
+    <text x="60" y="652" class="kname">LayerNorm</text>
+    <text x="60" y="676" class="kshape">8192 × 4096 · 2,586 GB/s</text>
+    <rect x="420" y="630" width="223.2" height="30" rx="6" fill="url(#bar-eager)"/>
+    <text x="655.2" y="651" class="val">1.25×</text>
+    <rect x="420" y="674" width="573.2" height="30" rx="6" fill="url(#bar-compiled)"/>
+    <text x="1005.2" y="695" class="val-gray">3.21×</text>
+
+    <!-- Reduce -->
+    <text x="60" y="752" class="kname">归约求和</text>
+    <text x="60" y="776" class="kshape">16384 × 4096 · 2,542 GB/s</text>
+    <rect x="420" y="730" width="169.6" height="30" rx="6" fill="url(#bar-eager)"/>
+    <text x="601.6" y="751" class="val-slow">0.95×</text>
+    <rect x="420" y="774" width="628.6" height="30" rx="6" fill="url(#bar-compiled)"/>
+    <text x="1060.6" y="795" class="val-gray">3.52×</text>
+
+    <!-- matmul -->
+    <text x="60" y="852" class="kname">矩阵乘法</text>
+    <text x="60" y="876" class="kshape">2048³ · 263 TFLOPS（峰值 27%）</text>
+    <rect x="420" y="830" width="76.8" height="30" rx="6" fill="url(#bar-eager)"/>
+    <text x="508.8" y="851" class="val-slow">0.43×</text>
+    <rect x="420" y="874" width="276.8" height="30" rx="6" fill="url(#bar-compiled)"/>
+    <text x="708.8" y="895" class="val-gray">1.55×</text>
+
+    <!-- Footer -->
+    <rect x="55" y="962" width="1490" height="46" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="800" y="991" text-anchor="middle" class="foot">访存受限算子收益最大；cuBLAS 在 matmul 上依然领先，这正是智能体迭代循环要攻的山头。</text>
+  </g>
+</svg>

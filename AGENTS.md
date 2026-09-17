@@ -78,3 +78,7 @@ pnpm preview    # 本地预览构建产物
 - `src/content.config.ts`：frontmatter schema
 - `src/data/site.ts`：站点配置与栏目（CATEGORIES）
 - `public/`：静态资源（covers/、images/）
+
+## 相关skill
+
+- theainews-cover-image: 默认使用这个skill生成配图，默认使用doubao渠道。

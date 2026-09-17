@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="770" viewBox="0 0 1600 770" role="img" aria-labelledby="title desc">
+  <title id="title">AutoKernel 的五阶段正确性护栏</title>
+  <desc id="desc">冒烟测试、形状扫描、数值稳定性、确定性、边界用例五个阶段依次把关，任一阶段失败都会立刻拒绝候选 kernel 并回退提交，只有全部通过之后才测量吞吐。</desc>
+  <defs>
+    <linearGradient id="page-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5f9ff"/>
+      <stop offset="0.34" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .stage { font-size: 19px; font-weight: 780; fill: #172033; }
+      .num { font-size: 20px; font-weight: 800; fill: #ffffff; }
+      .lbl { font-size: 13px; font-weight: 750; fill: #1d4ed8; letter-spacing: 0.4px; }
+      .lbl-red { font-size: 13px; font-weight: 750; fill: #b91c1c; letter-spacing: 0.4px; }
+      .line { font-size: 14px; font-weight: 500; fill: #55637a; }
+      .foot { font-size: 16px; font-weight: 650; fill: #475569; }
+      .gate { font-size: 19px; font-weight: 800; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="770" fill="url(#page-bg)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">五阶段正确性护栏</text>
+    <text x="60" y="110" class="subtitle">吞吐只在全部五关通过之后才被测量 · 基准与参考实现由智能体之外的人固定，不可修改</text>
+
+    <g filter="url(#shadow)">
+      <rect x="55" y="165" width="282" height="306" rx="20" fill="#ffffff" stroke="#dbe3ee" stroke-width="1.5"/>
+      <rect x="357" y="165" width="282" height="306" rx="20" fill="#ffffff" stroke="#dbe3ee" stroke-width="1.5"/>
+      <rect x="659" y="165" width="282" height="306" rx="20" fill="#ffffff" stroke="#dbe3ee" stroke-width="1.5"/>
+      <rect x="961" y="165" width="282" height="306" rx="20" fill="#ffffff" stroke="#dbe3ee" stroke-width="1.5"/>
+      <rect x="1263" y="165" width="282" height="306" rx="20" fill="#ffffff" stroke="#dbe3ee" stroke-width="1.5"/>
+    </g>
+
+    <!-- 1 -->
+    <g>
+      <circle cx="89" cy="207" r="21" fill="#2563eb"/>
+      <text x="89" y="215" class="num" text-anchor="middle">1</text>
+      <text x="122" y="214" class="stage">冒烟测试</text>
+      <line x1="79" y1="246" x2="313" y2="246" stroke="#eef2f7" stroke-width="1.5"/>
+      <text x="79" y="278" class="lbl">做什么</text>
+      <text x="79" y="302" class="line">单个小输入（如 128³）</text>
+      <text x="79" y="324" class="line">容差比常规更紧</text>
+      <text x="79" y="366" class="lbl-red">挡掉什么</text>
+      <text x="79" y="390" class="line">编译错误与形状不匹配</text>
+      <text x="79" y="412" class="line">粗粒度的数值 bug</text>
+      <text x="79" y="434" class="line">连小输入都跑不通的实现</text>
+    </g>
+
+    <!-- 2 -->
+    <g>
+      <circle cx="391" cy="207" r="21" fill="#2563eb"/>
+      <text x="391" y="215" class="num" text-anchor="middle">2</text>
+      <text x="424" y="214" class="stage">形状扫描</text>
+      <line x1="381" y1="246" x2="615" y2="246" stroke="#eef2f7" stroke-width="1.5"/>
+      <text x="381" y="278" class="lbl">做什么</text>
+      <text x="381" y="302" class="line">8–10 组形状 × 3 种精度</text>
+      <text x="381" y="324" class="line">覆盖 tiny 到 xlarge</text>
+      <text x="381" y="366" class="lbl-red">挡掉什么</text>
+      <text x="381" y="390" class="line">边界处理与 tile 余数逻辑</text>
+      <text x="381" y="412" class="line">只在某种尺寸下出现的错误</text>
+      <text x="381" y="434" class="line">精度相关的实现问题</text>
+    </g>
+
+    <!-- 3 -->
+    <g>
+      <circle cx="693" cy="207" r="21" fill="#2563eb"/>
+      <text x="693" y="215" class="num" text-anchor="middle">3</text>
+      <text x="726" y="214" class="stage">数值稳定性</text>
+      <line x1="683" y1="246" x2="917" y2="246" stroke="#eef2f7" stroke-width="1.5"/>
+      <text x="683" y="278" class="lbl">做什么</text>
+      <text x="683" y="302" class="line">对抗性输入：上溢、下溢</text>
+      <text x="683" y="324" class="line">极端动态范围、混合尺度</text>
+      <text x="683" y="366" class="lbl-red">挡掉什么</text>
+      <text x="683" y="390" class="line">候选 kernel 独有的 NaN / Inf</text>
+      <text x="683" y="412" class="line">极端取值下的数值崩溃</text>
+      <text x="683" y="434" class="line">只在大动态范围下暴露的问题</text>
+    </g>
+
+    <!-- 4 -->
+    <g>
+      <circle cx="995" cy="207" r="21" fill="#2563eb"/>
+      <text x="995" y="215" class="num" text-anchor="middle">4</text>
+      <text x="1028" y="214" class="stage">确定性</text>
+      <line x1="985" y1="246" x2="1219" y2="246" stroke="#eef2f7" stroke-width="1.5"/>
+      <text x="985" y="278" class="lbl">做什么</text>
+      <text x="985" y="302" class="line">同一输入连跑 3 次</text>
+      <text x="985" y="324" class="line">要求输出逐位一致</text>
+      <text x="985" y="366" class="lbl-red">挡掉什么</text>
+      <text x="985" y="390" class="line">并行归约中的竞态</text>
+      <text x="985" y="412" class="line">非确定性的原子操作</text>
+      <text x="985" y="434" class="line">偶发但会污染复现性的抖动</text>
+    </g>
+
+    <!-- 5 -->
+    <g>
+      <circle cx="1297" cy="207" r="21" fill="#2563eb"/>
+      <text x="1297" y="215" class="num" text-anchor="middle">5</text>
+      <text x="1330" y="214" class="stage">边界用例</text>
+      <line x1="1287" y1="246" x2="1521" y2="246" stroke="#eef2f7" stroke-width="1.5"/>
+      <text x="1287" y="278" class="lbl">做什么</text>
+      <text x="1287" y="302" class="line">非 2 的幂尺寸</text>
+      <text x="1287" y="324" class="line">1023 / 1537 / 4097</text>
+      <text x="1287" y="366" class="lbl-red">挡掉什么</text>
+      <text x="1287" y="390" class="line">掩码逻辑的 bug</text>
+      <text x="1287" y="412" class="line">tile 余数处理错误</text>
+      <text x="1287" y="434" class="line">只在整块之外露出的缺陷</text>
+    </g>
+
+    <rect x="55" y="500" width="1490" height="62" rx="14" fill="#fef2f2" stroke="#fecaca" stroke-width="1.5"/>
+    <text x="85" y="538" class="gate" fill="#b91c1c">任一阶段失败 → 立即拒绝</text>
+    <text x="1515" y="538" class="foot" text-anchor="end" fill="#7f1d1d">git reset --hard HEAD~1 ｜ 吞吐根本不测 ｜ 结果记作 FAIL / TIMEOUT / CRASH</text>
+
+    <line x1="800" y1="562" x2="800" y2="600" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <rect x="55" y="612" width="1490" height="76" rx="14" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="2"/>
+    <text x="85" y="658" class="gate" fill="#047857">五关全过 → 才测量吞吐</text>
+    <text x="1515" y="658" class="foot" text-anchor="end" fill="#065f46">Triton do_bench（warmup 25 / rep 100）｜ 与固定基准比较 ｜ 写入 results.tsv</text>
+
+    <text x="60" y="728" class="foot" fill="#94a3b8">容差随精度分化：FP16 atol = 1e-2，BF16 = 2e-2，FP32 = 1e-4；对抗性输入下再放宽 10 倍。</text>
+  </g>
+</svg>
