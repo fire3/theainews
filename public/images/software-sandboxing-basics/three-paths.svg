@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">三条降权路径：能不能不靠 root，决定了它算不算沙箱</title>
+  <desc id="desc">程序化接口（Capsicum、seccomp、Landlock）由进程自行降权、不需要管理权限，符合沙箱定义；setuid 辅助程序与 chroot 监牢依赖安装 setuid 二进制，等于临时把进程提升为系统完全管理权限；Linux user namespace 在嵌套命名空间内让进程成为超级用户，把内核中原本只对 root 开放的代码路径暴露给所有用户，从而放大攻击面。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f9fc"/>
+      <stop offset="0.4" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="sh" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .head { font-size: 27px; font-weight: 800; }
+      .tag { font-size: 15px; font-weight: 700; fill: #94a3b8; letter-spacing: 1.5px; }
+      .meta { font-size: 15px; font-weight: 650; }
+      .line { font-size: 15.5px; font-weight: 500; fill: #55637a; }
+      .verdict { font-size: 17px; font-weight: 800; }
+      .quotebody { font-size: 18px; font-weight: 600; fill: #334155; }
+      .quoteattr { font-size: 14px; font-weight: 600; fill: #94a3b8; }
+      .foot { font-size: 15px; font-weight: 650; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#bg)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">三条降权路径：能不能不靠 root，决定了它算不算沙箱</text>
+    <text x="60" y="110" class="subtitle">Julien Tinnes 与 Chris Evans 在 2009 年给出的限定：程序化、无需管理权限、自主降权</text>
+
+    <!-- card 1 -->
+    <g filter="url(#sh)">
+      <rect x="50" y="152" width="480" height="520" rx="18" fill="#f2fbf7" stroke="#a7e3c8" stroke-width="1.5"/>
+      <rect x="80" y="546" width="420" height="96" rx="12" fill="#ffffff" stroke="#a7e3c8" stroke-width="1.5"/>
+    </g>
+    <text x="80" y="196" class="tag" fill="#047857">路径 A</text>
+    <text x="80" y="238" class="head" fill="#065f46">程序化接口</text>
+    <text x="80" y="270" class="meta" fill="#047857">Capsicum / seccomp / Landlock</text>
+    <line x1="80" y1="290" x2="500" y2="290" stroke="#a7e3c8" stroke-width="1.5"/>
+    <circle cx="88" cy="326" r="4" fill="#10b981"/>
+    <text x="104" y="332" class="line">进程在运行时自己调用接口降权</text>
+    <circle cx="88" cy="366" r="4" fill="#10b981"/>
+    <text x="104" y="372" class="line">不需要 root，也不需要安装</text>
+    <text x="104" y="394" class="line">setuid 辅助二进制</text>
+    <circle cx="88" cy="434" r="4" fill="#10b981"/>
+    <text x="104" y="440" class="line">第三方程序可以表达自己那套</text>
+    <text x="104" y="462" class="line">虚拟世界所需的安全策略</text>
+    <circle cx="88" cy="502" r="4" fill="#10b981"/>
+    <text x="104" y="508" class="line">特权只减不增</text>
+    <text x="110" y="590" class="verdict" fill="#047857">✓ 这就是沙箱</text>
+    <text x="110" y="620" class="line">三个限定条件全部满足</text>
+
+    <!-- card 2 -->
+    <g filter="url(#sh)">
+      <rect x="560" y="152" width="480" height="520" rx="18" fill="#fff7f6" stroke="#f3c6c2" stroke-width="1.5"/>
+      <rect x="590" y="546" width="420" height="96" rx="12" fill="#ffffff" stroke="#f3c6c2" stroke-width="1.5"/>
+    </g>
+    <text x="590" y="196" class="tag" fill="#b91c1c">路径 B</text>
+    <text x="590" y="238" class="head" fill="#991b1b">setuid 辅助程序</text>
+    <text x="590" y="270" class="meta" fill="#b91c1c">经典的 chroot 监牢方案</text>
+    <line x1="590" y1="290" x2="1010" y2="290" stroke="#f3c6c2" stroke-width="1.5"/>
+    <circle cx="598" cy="326" r="4" fill="#ef4444"/>
+    <text x="614" y="332" class="line">要求程序有权安装一个 setuid</text>
+    <text x="614" y="354" class="line">二进制，才能配置监牢</text>
+    <circle cx="598" cy="394" r="4" fill="#ef4444"/>
+    <text x="614" y="400" class="line">setuid 等于临时把进程提升为</text>
+    <text x="614" y="422" class="line">系统的完全管理权限</text>
+    <circle cx="598" cy="462" r="4" fill="#ef4444"/>
+    <text x="614" y="468" class="line">一旦允许任意程序装 setuid，</text>
+    <text x="614" y="490" class="line">所有安全措施都可以作废</text>
+    <text x="620" y="590" class="verdict" fill="#b91c1c">✗ 把权限往上抬</text>
+    <text x="620" y="620" class="line">与最小权限原则直接相悖</text>
+
+    <!-- card 3 -->
+    <g filter="url(#sh)">
+      <rect x="1070" y="152" width="480" height="520" rx="18" fill="#fffbf2" stroke="#fcd9a0" stroke-width="1.5"/>
+      <rect x="1100" y="546" width="420" height="96" rx="12" fill="#ffffff" stroke="#fcd9a0" stroke-width="1.5"/>
+    </g>
+    <text x="1100" y="196" class="tag" fill="#b45309">路径 C</text>
+    <text x="1100" y="238" class="head" fill="#92400e">user namespace</text>
+    <text x="1100" y="270" class="meta" fill="#b45309">被 Docker 带火的廉价隔离</text>
+    <line x1="1100" y1="290" x2="1520" y2="290" stroke="#fcd9a0" stroke-width="1.5"/>
+    <circle cx="1108" cy="326" r="4" fill="#f59e0b"/>
+    <text x="1124" y="332" class="line">在嵌套命名空间内部，进程就是</text>
+    <text x="1124" y="354" class="line">超级用户</text>
+    <circle cx="1108" cy="394" r="4" fill="#f59e0b"/>
+    <text x="1124" y="400" class="line">内核中原本只对 root 开放的代码</text>
+    <text x="1124" y="422" class="line">路径，就此对所有用户开放</text>
+    <circle cx="1108" cy="462" r="4" fill="#f59e0b"/>
+    <text x="1124" y="468" class="line">这批内核代码写了十几年，从未</text>
+    <text x="1124" y="490" class="line">按这个前提设计</text>
+    <text x="1130" y="590" class="verdict" fill="#b45309">△ 只适合容器化工具</text>
+    <text x="1130" y="620" class="line">用作软件沙箱是长期的坏赌注</text>
+
+    <!-- quote bar -->
+    <g filter="url(#sh)">
+      <rect x="50" y="706" width="1500" height="150" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="86" y="756" class="quotebody">“我认为让 CLONE_NEWUSER 获取任一网络 namespace 上的 CAP_NET_ADMIN、从而访问网络配置 API，是个巨大风险。</text>
+    <text x="86" y="786" class="quotebody">举例来说，非特权用户就能编程 iptables。如果这里面没有提权漏洞，我把帽子吃了。”</text>
+    <text x="86" y="818" class="quoteattr">— Andy Lutomirski，Linux 内核开发者（LKML）</text>
+    <text x="1514" y="818" class="verdict" fill="#0f172a" text-anchor="end">特权只应减少，不应增加</text>
+
+    <text x="60" y="906" class="foot">限制 namespace 的新机制仍在开发中；Landlock 这类新接口从设计上就刻意避免放大内核攻击面</text>
+    <text x="1540" y="906" class="foot" text-anchor="end" fill="#b45309">Emilua 的经验：重心从 namespace 转向其他机制</text>
+  </g>
+</svg>

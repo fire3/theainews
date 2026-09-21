@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">Linux 上你能拿到的组合：Seccomp 过滤系统调用，Landlock 约束路径</title>
+  <desc id="desc">seccomp 用 BPF 程序为每个系统调用选择八种动作之一：KILL_PROCESS、KILL_THREAD、TRAP、ERRNO、USER_NOTIF、TRACE、LOG、ALLOW。它有四个陷阱：黑名单落后于新内核、多架构让按号封锁失效、x86-64 与 x32 共用同一个 arch 标记、系统调用参数顺序随架构变化。右侧说明 Linux 上更现实的做法是放行 open 并用 Landlock 过滤文件系统访问，代价是进程能用另一种 mode 重新打开 /proc/self/fd/，从而使文件描述符失去能力语义。</desc>
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f9fc"/>
+      <stop offset="0.4" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="sh4" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .sect { font-size: 22px; font-weight: 800; fill: #172033; }
+      .item { font-size: 18px; font-weight: 800; fill: #1e293b; }
+      .line { font-size: 15.5px; font-weight: 500; fill: #55637a; }
+      .chip { font-size: 14px; font-weight: 700; fill: #3730a3; }
+      .chiplabel { font-size: 15px; font-weight: 750; fill: #64748b; }
+      .num { font-size: 17px; font-weight: 800; fill: #ffffff; }
+      .verdict { font-size: 19px; font-weight: 800; fill: #0f172a; }
+      .foot { font-size: 15px; font-weight: 650; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#bg4)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">Linux 上你能拿到的组合：Seccomp 过滤调用，Landlock 约束路径</text>
+    <text x="60" y="110" class="subtitle">seccomp 是很好的操作系统加固机制，却是很差的自主降权机制</text>
+
+    <!-- chip strip -->
+    <g filter="url(#sh4)">
+      <rect x="50" y="138" width="1500" height="96" rx="16" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1.5"/>
+    </g>
+    <text x="78" y="180" class="chiplabel">BPF 为每个系统调用选一个动作</text>
+    <g stroke="#c7d2fe" stroke-width="1.5" fill="#ffffff">
+      <rect x="78" y="196" width="152" height="26" rx="13"/>
+      <rect x="246" y="196" width="146" height="26" rx="13"/>
+      <rect x="408" y="196" width="88" height="26" rx="13"/>
+      <rect x="512" y="196" width="88" height="26" rx="13"/>
+      <rect x="616" y="196" width="124" height="26" rx="13"/>
+      <rect x="756" y="196" width="88" height="26" rx="13"/>
+      <rect x="860" y="196" width="88" height="26" rx="13"/>
+      <rect x="964" y="196" width="88" height="26" rx="13"/>
+    </g>
+    <text x="154" y="215" class="chip" text-anchor="middle">KILL_PROCESS</text>
+    <text x="319" y="215" class="chip" text-anchor="middle">KILL_THREAD</text>
+    <text x="452" y="215" class="chip" text-anchor="middle">TRAP</text>
+    <text x="556" y="215" class="chip" text-anchor="middle">ERRNO</text>
+    <text x="678" y="215" class="chip" text-anchor="middle">USER_NOTIF</text>
+    <text x="800" y="215" class="chip" text-anchor="middle">TRACE</text>
+    <text x="904" y="215" class="chip" text-anchor="middle">LOG</text>
+    <text x="1008" y="215" class="chip" text-anchor="middle">ALLOW</text>
+    <text x="1080" y="215" class="chiplabel" fill="#94a3b8">拒绝 open、bind 这类按名字操作的调用，就关掉了环境授权</text>
+
+    <!-- left panel -->
+    <g filter="url(#sh4)">
+      <rect x="50" y="260" width="730" height="420" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="86" y="302" class="sect">seccomp 的四个陷阱</text>
+
+    <circle cx="100" cy="340" r="13" fill="#ef4444"/>
+    <text x="100" y="346" class="num" text-anchor="middle">1</text>
+    <text x="128" y="346" class="item">黑名单永远落后于内核</text>
+    <text x="128" y="372" class="line">新内核会加新系统调用，今天的策略挡不住明天</text>
+
+    <circle cx="100" cy="416" r="13" fill="#ef4444"/>
+    <text x="100" y="422" class="num" text-anchor="middle">2</text>
+    <text x="128" y="422" class="item">多架构让按号封锁失效</text>
+    <text x="128" y="448" class="line">x86-64 程序可以跑 x86 二进制，绕过 syscall 过滤器</text>
+
+    <circle cx="100" cy="492" r="13" fill="#ef4444"/>
+    <text x="100" y="498" class="num" text-anchor="middle">3</text>
+    <text x="128" y="498" class="item">x86-64 与 x32 共用同一个 arch</text>
+    <text x="128" y="524" class="line">二者都报 AUDIT_ARCH_X86_64，靠 <tspan font-weight="700">X32_SYSCALL_BIT</tspan> 区分；</text>
+    <text x="128" y="546" class="line">只按 nr 列出的拒绝清单会被设了该位的程序绕过</text>
+
+    <circle cx="100" cy="590" r="13" fill="#ef4444"/>
+    <text x="100" y="596" class="num" text-anchor="middle">4</text>
+    <text x="128" y="596" class="item">参数顺序随架构变化</text>
+    <text x="128" y="622" class="line">Docker 不得不为 clone 这样一个调用写多条规则</text>
+
+    <!-- right panel -->
+    <g filter="url(#sh4)">
+      <rect x="820" y="260" width="730" height="420" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="856" y="302" class="sect">Landlock，以及「描述符即能力」的裂痕</text>
+
+    <circle cx="870" cy="340" r="6" fill="#0d9488"/>
+    <text x="892" y="346" class="item">放行 open，用 Landlock 过滤文件系统访问</text>
+    <text x="892" y="372" class="line">比拦截 open 更现实：Linux 用户态过度依赖文件系统</text>
+
+    <circle cx="870" cy="416" r="6" fill="#0d9488"/>
+    <text x="892" y="422" class="item">拦截 open 在嵌套沙箱下会出问题</text>
+    <text x="892" y="448" class="line">为兼容旧代码而放行之后，旧代码访问 /proc/self 仍会失败</text>
+
+    <circle cx="870" cy="492" r="6" fill="#ef4444"/>
+    <text x="892" y="498" class="item">代价：描述符不再是能力</text>
+    <text x="892" y="524" class="line">进程能用另一种 mode 重新打开 /proc/self/fd/，</text>
+    <text x="892" y="546" class="line">于是「持有描述符」不再等于「持有访问权」</text>
+
+    <circle cx="870" cy="590" r="6" fill="#0d9488"/>
+    <text x="892" y="596" class="item">Landlock 的长期目标</text>
+    <text x="892" y="622" class="line">暴露与 Capsicum 兼容的能力 —— 或许未来能补上这道裂痕</text>
+
+    <!-- bottom bar -->
+    <g filter="url(#sh4)">
+      <rect x="50" y="706" width="1500" height="120" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="86" y="750" class="verdict">Linux 上没有 cap_enter 那样的单点开关</text>
+    <text x="86" y="784" class="line">Seccomp 加 Landlock 就是你能拿到的全部；而「用一个函数关掉环境授权」的库，至今没有客户愿意资助</text>
+    <text x="1540" y="750" class="foot" text-anchor="end" fill="#b45309">Linux namespace 在这条路上只会更糟</text>
+
+    <text x="60" y="886" class="foot">与 Capsicum 对比：那边是「一次调用 + 收窄权限」，这边是策略语法、多架构表与内核版本赛跑</text>
+    <text x="1540" y="886" class="foot" text-anchor="end">Kafel 用语言与库来复用 seccomp 策略</text>
+    <text x="60" y="918" class="foot">系统调用 ioctl 被归入基础 IO 组：它更像「伪装成系统调用的系统调用」，设备驱动能用它做任何事</text>
+    <text x="1540" y="918" class="foot" text-anchor="end">Process 组在沙箱化别的二进制时几乎必然需要</text>
+  </g>
+</svg>

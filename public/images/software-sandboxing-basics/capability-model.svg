@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">actor 模型加能力安全：把「能不能拿到资源」变成可推理的问题</title>
+  <desc id="desc">左侧是 actor 拓扑：supervisor actor 通过 spawn_vm 创建 worker actor，用 actor:send 沿 UNIX domain socket 发消息，收件箱描述符从不外发因而构成 MPSC 通道。右侧说明文件描述符为何可以充当能力：UNIX 只在创建描述符时做权限检查，而描述符可以承载文件、目录、管道、socket、设备节点、memfd、pidfd、eventfd 与 eBPF 程序等资源；唯一例外是对来自不可信进程的描述符执行 ioctl。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f9fc"/>
+      <stop offset="0.4" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="sh2" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="ar2b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6366f1"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .sect { font-size: 23px; font-weight: 800; fill: #172033; }
+      .sectsub { font-size: 15.5px; font-weight: 500; fill: #64748b; }
+      .node { font-size: 19px; font-weight: 800; fill: #1e293b; }
+      .nodetag { font-size: 13.5px; font-weight: 600; fill: #7c8798; }
+      .edge { font-size: 13.5px; font-weight: 650; fill: #6366f1; }
+      .line { font-size: 15.5px; font-weight: 500; fill: #55637a; }
+      .pill { font-size: 15px; font-weight: 650; fill: #334155; }
+      .code { font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 15px; font-weight: 600; fill: #1e293b; }
+      .warn { font-size: 15.5px; font-weight: 700; fill: #b91c1c; }
+      .foot { font-size: 15px; font-weight: 650; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#bg2)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">actor 模型加能力安全：把「能不能拿到资源」变成可推理的问题</text>
+    <text x="60" y="110" class="subtitle">进程即 actor，地址即通道，资源以文件描述符的形式交接</text>
+
+    <!-- left panel -->
+    <g filter="url(#sh2)">
+      <rect x="50" y="150" width="730" height="560" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="82" y="196" class="sect">进程即 actor，地址即通道</text>
+    <text x="82" y="226" class="sectsub">只要三个函数，就能把隔间化应用写出来</text>
+
+    <g filter="url(#sh2)">
+      <rect x="290" y="256" width="250" height="70" rx="14" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1.5"/>
+      <rect x="90" y="418" width="200" height="68" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+      <rect x="300" y="418" width="200" height="68" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+      <rect x="510" y="418" width="200" height="68" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    </g>
+    <text x="415" y="286" class="node" text-anchor="middle">supervisor actor</text>
+    <text x="415" y="310" class="nodetag" text-anchor="middle">持有全部资源与策略</text>
+    <text x="190" y="450" class="node" text-anchor="middle">worker 1</text>
+    <text x="190" y="472" class="nodetag" text-anchor="middle">cap_enter() 之后</text>
+    <text x="400" y="450" class="node" text-anchor="middle">worker 2</text>
+    <text x="400" y="472" class="nodetag" text-anchor="middle">只能通过描述符访问</text>
+    <text x="610" y="450" class="node" text-anchor="middle">worker 3</text>
+    <text x="610" y="472" class="nodetag" text-anchor="middle">open 与 connect 均已失效</text>
+
+    <path d="M 340 326 C 260 370, 210 390, 190 412" fill="none" stroke="#6366f1" stroke-width="2" marker-end="url(#ar2b)"/>
+    <path d="M 415 326 L 402 412" fill="none" stroke="#6366f1" stroke-width="2" marker-end="url(#ar2b)"/>
+    <path d="M 490 326 C 570 370, 600 390, 610 412" fill="none" stroke="#6366f1" stroke-width="2" marker-end="url(#ar2b)"/>
+    <text x="248" y="372" class="edge" text-anchor="middle">send(描述符)</text>
+    <text x="415" y="376" class="edge" text-anchor="middle">spawn_vm</text>
+
+    <rect x="82" y="520" width="666" height="60" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="6 5"/>
+    <text x="102" y="557" class="line">UNIX domain socket 既是 actor 地址，又能随消息传递描述符（SCM_RIGHTS）</text>
+
+    <text x="82" y="620" class="code">spawn_vm(module) → actor</text>
+    <text x="330" y="620" class="code">actor:send(msg)</text>
+    <text x="500" y="620" class="code">inbox:receive() → msg</text>
+    <circle cx="88" cy="664" r="4" fill="#6366f1"/>
+    <text x="104" y="670" class="line">收件箱描述符永不外发 —— 天然是一条 MPSC 通道</text>
+    <circle cx="88" cy="694" r="4" fill="#6366f1"/>
+    <text x="104" y="700" class="line">地址可伪造，通道不可伪造：用通道替代地址，API 不变</text>
+
+    <!-- right panel -->
+    <g filter="url(#sh2)">
+      <rect x="820" y="150" width="730" height="560" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="852" y="196" class="sect">文件描述符即能力</text>
+    <text x="852" y="226" class="sectsub">能力不只是资源引用，还包含附着其上的访问权限</text>
+
+    <rect x="852" y="252" width="666" height="86" rx="12" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1.5"/>
+    <text x="876" y="286" class="line">UNIX 只在<tspan font-weight="800" fill="#3730a3">创建描述符时</tspan>做权限检查，</text>
+    <text x="876" y="314" class="line">使用已打开的描述符时不再检查 —— 与能力模型天然兼容</text>
+
+    <text x="852" y="384" class="sectsub">可以随消息交接的资源</text>
+    <g stroke="#e2e8f0" stroke-width="1.5" fill="#f8fafc">
+      <rect x="852" y="402" width="318" height="46" rx="10"/>
+      <rect x="1200" y="402" width="318" height="46" rx="10"/>
+      <rect x="852" y="458" width="318" height="46" rx="10"/>
+      <rect x="1200" y="458" width="318" height="46" rx="10"/>
+      <rect x="852" y="514" width="318" height="46" rx="10"/>
+      <rect x="1200" y="514" width="318" height="46" rx="10"/>
+      <rect x="852" y="570" width="318" height="46" rx="10"/>
+      <rect x="1200" y="570" width="318" height="46" rx="10"/>
+    </g>
+    <text x="872" y="431" class="pill">文件与目录</text>
+    <text x="1220" y="431" class="pill">管道与 socket</text>
+    <text x="872" y="487" class="pill">设备节点（GPU、/dev/random）</text>
+    <text x="1220" y="487" class="pill">共享内存（memfd）</text>
+    <text x="872" y="543" class="pill">进程句柄（pidfd）</text>
+    <text x="1220" y="543" class="pill">同步对象（eventfd）</text>
+    <text x="872" y="599" class="pill">eBPF 程序</text>
+    <text x="1220" y="599" class="pill">任意已打开的句柄</text>
+
+    <text x="852" y="664" class="warn">唯一例外：对来自不可信进程的描述符执行 ioctl 永远危险</text>
+    <text x="852" y="694" class="line">连 isatty() 在 Linux 上也是用 ioctl 实现的</text>
+
+    <!-- bottom bar -->
+    <g filter="url(#sh2)">
+      <rect x="50" y="742" width="1500" height="140" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="86" y="792" class="sect">有了能力模型，就可以回答这类问题</text>
+    <circle cx="92" cy="828" r="4" fill="#6366f1"/>
+    <text x="110" y="834" class="line">actor A 是否<tspan font-weight="800" fill="#3730a3">可能</tspan>有效访问资源 X？</text>
+    <circle cx="92" cy="860" r="4" fill="#6366f1"/>
+    <text x="110" y="866" class="line">如何设计布局，让任何被沙箱化的 actor 都不可能同时拿到文件与 socket？</text>
+    <text x="1514" y="792" class="foot" text-anchor="end">Pony 语言是 actor 模型 + 能力安全的一个实现</text>
+    <text x="1514" y="834" class="foot" text-anchor="end" fill="#6366f1">经验法则：避免 ioctl</text>
+
+    <text x="60" y="930" class="foot">消息可携带地址，意味着拓扑可以任意变化；Chromium 的多进程沙箱就是这种结构的一个实例</text>
+  </g>
+</svg>

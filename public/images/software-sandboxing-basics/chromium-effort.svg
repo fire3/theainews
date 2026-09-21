@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">同一件事，代价差两个数量级</title>
+  <desc id="desc">Capsicum 论文为 Chromium 接入各平台沙箱机制所需的代码行数：Windows ACL 22350 行，Linux seccomp 加用户态包装 11301 行，Linux chroot 监牢 605 行，macOS Seatbelt 560 行，Linux SELinux 200 行，FreeBSD Capsicum 100 行。上图为全量对比，下图把 0 到 700 行这一段放大。</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f9fc"/>
+      <stop offset="0.4" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="sh3" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .sect { font-size: 22px; font-weight: 800; fill: #172033; }
+      .name { font-size: 19px; font-weight: 700; fill: #1e293b; }
+      .val { font-size: 20px; font-weight: 800; }
+      .tick { font-size: 13.5px; font-weight: 650; fill: #94a3b8; }
+      .line { font-size: 15.5px; font-weight: 500; fill: #55637a; }
+      .flag { font-size: 16px; font-weight: 800; fill: #0d9488; }
+      .foot { font-size: 15px; font-weight: 650; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#bg3)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">同一件事，代价差两个数量级</text>
+    <text x="60" y="110" class="subtitle">Capsicum 论文为 Chromium 接入各沙箱机制所需的代码行数（USENIX Security 2010）</text>
+
+    <!-- panel A -->
+    <g filter="url(#sh3)">
+      <rect x="50" y="138" width="1500" height="340" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="86" y="176" class="sect">全量对比：0 – 24,000 行</text>
+
+    <g stroke="#eef2f7" stroke-width="1.5">
+      <line x1="600" y1="200" x2="600" y2="432"/>
+      <line x1="825" y1="200" x2="825" y2="432"/>
+      <line x1="1050" y1="200" x2="1050" y2="432"/>
+      <line x1="1275" y1="200" x2="1275" y2="432"/>
+      <line x1="1500" y1="200" x2="1500" y2="432"/>
+    </g>
+    <text x="600" y="452" class="tick" text-anchor="middle">0</text>
+    <text x="825" y="452" class="tick" text-anchor="middle">6,000</text>
+    <text x="1050" y="452" class="tick" text-anchor="middle">12,000</text>
+    <text x="1275" y="452" class="tick" text-anchor="middle">18,000</text>
+    <text x="1500" y="452" class="tick" text-anchor="middle">24,000</text>
+
+    <text x="90" y="228" class="name">Windows：ACL 与 SID</text>
+    <rect x="600" y="200" width="838" height="40" rx="6" fill="#64748b"/>
+    <text x="1450" y="228" class="val" fill="#334155" text-anchor="start">22,350</text>
+
+    <text x="90" y="318" class="name">Linux：seccomp 加用户态包装</text>
+    <rect x="600" y="290" width="424" height="40" rx="6" fill="#f59e0b"/>
+    <text x="1036" y="318" class="val" fill="#b45309" text-anchor="start">11,301</text>
+
+    <text x="90" y="408" class="name">FreeBSD：Capsicum（cap_enter）</text>
+    <rect x="600" y="380" width="4" height="40" rx="2" fill="#0d9488"/>
+    <text x="620" y="408" class="val" fill="#0d9488" text-anchor="start">100</text>
+
+    <text x="86" y="452" class="flag">↑ 同样一条竖线宽度里，它只有 Windows 方案的 0.45%</text>
+
+    <!-- panel B -->
+    <g filter="url(#sh3)">
+      <rect x="50" y="506" width="1500" height="330" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="86" y="544" class="sect">把 0 – 700 行这一段放大</text>
+    <text x="1514" y="544" class="tick" text-anchor="end">横轴刻度：0 / 350 / 700</text>
+
+    <g stroke="#eef2f7" stroke-width="1.5">
+      <line x1="600" y1="566" x2="600" y2="806"/>
+      <line x1="1050" y1="566" x2="1050" y2="806"/>
+      <line x1="1500" y1="566" x2="1500" y2="806"/>
+    </g>
+
+    <text x="90" y="612" class="name">Linux：chroot 监牢（setuid root 辅助程序）</text>
+    <rect x="600" y="592" width="778" height="32" rx="6" fill="#94a3b8"/>
+    <text x="1390" y="615" class="val" fill="#334155" text-anchor="start">605</text>
+
+    <text x="90" y="674" class="name">macOS：Seatbelt（基于路径的强制访问控制）</text>
+    <rect x="600" y="654" width="720" height="32" rx="6" fill="#a5b4fc"/>
+    <text x="1332" y="677" class="val" fill="#334155" text-anchor="start">560</text>
+
+    <text x="90" y="736" class="name">Linux：SELinux 受限类型域</text>
+    <rect x="600" y="716" width="257" height="32" rx="6" fill="#fbbf24"/>
+    <text x="869" y="739" class="val" fill="#b45309" text-anchor="start">200</text>
+
+    <text x="90" y="798" class="name">FreeBSD：Capsicum</text>
+    <rect x="600" y="778" width="129" height="32" rx="6" fill="#0d9488"/>
+    <text x="741" y="801" class="val" fill="#0d9488" text-anchor="start">100</text>
+
+    <text x="60" y="890" class="foot">其他机制并没有实质性地限制沙箱能力，可以忽略</text>
+    <text x="1540" y="890" class="foot" text-anchor="end" fill="#0d9488">如果一生只研究一种沙箱机制，那就研究 Capsicum</text>
+    <text x="60" y="922" class="foot">Capsicum 是本文余下所有沙箱设计（不分操作系统）的灵感来源</text>
+    <text x="1540" y="922" class="foot" text-anchor="end">数据来源：Capsicum 论文表 1</text>
+  </g>
+</svg>
