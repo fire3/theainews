@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">AX 控制面架构</title>
+  <desc id="desc">ax CLI 提交多文档 YAML，ax-server 校验后写入 Redis 并发布事件；ax-controller 通过 Redis Streams 消费任务，再经 gRPC 控制 Agent Substrate 供给 atespace、创建与激活 actor、分配 worker 并下发 egress 策略。任务状态存 Redis 而非 etcd。</desc>
+  <defs>
+    <linearGradient id="page-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5f9ff"/>
+      <stop offset="0.34" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .head { font-size: 21px; font-weight: 800; fill: #172033; }
+      .sub { font-size: 14px; font-weight: 700; }
+      .line { font-size: 14px; font-weight: 500; fill: #55637a; }
+      .edge { font-size: 13px; font-weight: 650; fill: #64748b; }
+      .panelhead { font-size: 18px; font-weight: 800; fill: #172033; }
+      .foot { font-size: 15px; font-weight: 650; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#page-bg)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">AX 控制面：任务状态放 Redis，不放 etcd</text>
+    <text x="60" y="110" class="subtitle">声明式 YAML → ax-server → Redis Streams → ax-controller → Agent Substrate</text>
+
+    <!-- CLI pill -->
+    <g filter="url(#shadow)">
+      <rect x="50" y="158" width="335" height="58" rx="14" fill="#eef4ff" stroke="#bfdbfe" stroke-width="1.5"/>
+    </g>
+    <text x="217" y="194" class="head" text-anchor="middle" fill="#1d4ed8">ax apply -f task.yaml</text>
+    <text x="420" y="184" class="line">客户端解析多文档 YAML，再走类型化 gRPC；</text>
+    <text x="420" y="206" class="line">服务器端从不接收原始 YAML</text>
+    <line x1="217" y1="216" x2="217" y2="288" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- main chain -->
+    <g filter="url(#shadow)">
+      <rect x="50" y="295" width="335" height="268" rx="18" fill="#ffffff" stroke="#c7d9f5" stroke-width="1.5"/>
+      <rect x="435" y="295" width="335" height="268" rx="18" fill="#fff7f6" stroke="#f3c6c2" stroke-width="1.5"/>
+      <rect x="820" y="295" width="335" height="268" rx="18" fill="#fffdf5" stroke="#fcd9a0" stroke-width="1.5"/>
+      <rect x="1205" y="295" width="335" height="268" rx="18" fill="#f4fdf9" stroke="#a7e3c8" stroke-width="1.5"/>
+    </g>
+
+    <!-- ax-server -->
+    <text x="75" y="333" class="head">ax-server</text>
+    <text x="75" y="358" class="sub" fill="#1d4ed8">无状态 gRPC API · 端口 8080</text>
+    <text x="75" y="392" class="line">校验 manifest 的合法性</text>
+    <text x="75" y="416" class="line">把对象持久化到 Redis</text>
+    <text x="75" y="440" class="line">发布状态变更事件</text>
+    <text x="75" y="464" class="line">/healthz 走普通 HTTP</text>
+    <text x="75" y="500" class="line" fill="#94a3b8">水平扩展只需要加副本</text>
+
+    <!-- Redis -->
+    <text x="460" y="333" class="head" fill="#b91c1c">Redis</text>
+    <text x="460" y="358" class="sub" fill="#b91c1c">任务状态 + 工作队列</text>
+    <text x="460" y="392" class="line">Task Hash：任务对象本体</text>
+    <text x="460" y="416" class="line">Event Stream：状态变更流</text>
+    <text x="460" y="440" class="line">PubSub：广播给 watch 的客户端</text>
+    <text x="460" y="464" class="line">Streams：控制器的工作队列</text>
+    <text x="460" y="500" class="line" fill="#94a3b8">单集群数百万任务也不逼爆 etcd</text>
+
+    <!-- ax-controller -->
+    <text x="845" y="333" class="head" fill="#b45309">ax-controller</text>
+    <text x="845" y="358" class="sub" fill="#b45309">可水平扩展的调和器</text>
+    <text x="845" y="392" class="line">XREADGROUP 消费 Redis Stream</text>
+    <text x="845" y="416" class="line">向 Agent Substrate 申请 atespace</text>
+    <text x="845" y="440" class="line">创建并激活任务对应的 actor</text>
+    <text x="845" y="464" class="line">下发 egress 策略、驱动任务收敛</text>
+    <text x="845" y="500" class="line" fill="#94a3b8">每个副本都是无差别 worker</text>
+
+    <!-- Agent Substrate -->
+    <text x="1230" y="333" class="head" fill="#047857">Agent Substrate</text>
+    <text x="1230" y="358" class="sub" fill="#047857">沙箱执行底座（独立项目）</text>
+    <text x="1230" y="392" class="line">Atespace 供给</text>
+    <text x="1230" y="416" class="line">Actor 创建与激活</text>
+    <text x="1230" y="440" class="line">Worker 分配</text>
+    <text x="1230" y="464" class="line">Egress 策略过滤</text>
+    <text x="1230" y="500" class="line" fill="#94a3b8">gVisor / microVM 零信任隔离</text>
+
+    <!-- edges -->
+    <line x1="385" y1="429" x2="425" y2="429" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="770" y1="429" x2="810" y2="429" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="1155" y1="429" x2="1195" y2="429" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="405" y="419" class="edge" text-anchor="middle">store</text>
+    <text x="405" y="454" class="edge" text-anchor="middle">publish</text>
+    <text x="790" y="419" class="edge" text-anchor="middle">XREAD</text>
+    <text x="790" y="454" class="edge" text-anchor="middle">GROUP</text>
+    <text x="1175" y="419" class="edge" text-anchor="middle">gRPC</text>
+    <text x="1175" y="454" class="edge" text-anchor="middle">控制 API</text>
+
+    <!-- bottom panels -->
+    <g filter="url(#shadow)">
+      <rect x="50" y="625" width="730" height="235" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+      <rect x="820" y="625" width="720" height="235" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+
+    <text x="80" y="665" class="panelhead">为什么不用 CRD 存任务</text>
+    <text x="80" y="700" class="line">把数百万个短生命周期任务塞进 Kubernetes CRD，会把 etcd 逼出舒适区：</text>
+    <text x="80" y="726" class="line">单库存储只有个位数 GB，写入速率成为瓶颈，整个控制面随之退化。</text>
+    <text x="80" y="762" class="line">AX 因此把对象状态放进 Redis，用 Redis Streams 充当 ax-server 与</text>
+    <text x="80" y="788" class="line">ax-controller 之间的工作队列，控制器加副本就能扩容。</text>
+    <text x="80" y="828" class="line" fill="#94a3b8">代价：调度与配额语义要自己实现，换来的是任务密度与生命周期速度。</text>
+
+    <text x="850" y="665" class="panelhead">任务容器里的 PID 1</text>
+    <text x="850" y="700" class="line">控制器从不拿 spec.command 当容器入口，而是固定启动</text>
+    <text x="850" y="726" class="line">/usr/local/bin/ax-task-runner，一个可以整包替换的 runner。</text>
+    <text x="850" y="762" class="line">Task 与 Workspace 通过 AX_TASK_YAML、AX_WORKSPACES_YAML</text>
+    <text x="850" y="788" class="line">交给 runner；命令退出后 runner 继续存活，让 ax ssh 仍可用。</text>
+    <text x="850" y="828" class="line" fill="#94a3b8">镜像里必须有这个可执行文件，哪怕它只是一个包装脚本。</text>
+
+    <rect x="50" y="890" width="1490" height="58" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="80" y="926" class="foot">四个原语都是 ax.io/v1alpha1 manifest：Task ｜ Workspace ｜ Gateway ｜ Model</text>
+    <text x="1510" y="926" class="foot" text-anchor="end" fill="#1d4ed8">ax CLI 跟随 kubeconfig 上下文，自动为控制面建隧道</text>
+  </g>
+</svg>

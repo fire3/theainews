@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">AX 的四个原语与任务生命周期</title>
+  <desc id="desc">Task、Workspace、Gateway、Model 四个原语各自承担隔离执行、预热工作区、网络边界与集中配置；任务在 Pending、Running、Suspended、Terminating 之间流转，由 WorkspaceReady、GatewayReady、Ready 三个条件驱动。</desc>
+  <defs>
+    <linearGradient id="page-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5f9ff"/>
+      <stop offset="0.34" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .sect { font-size: 19px; font-weight: 800; fill: #334155; }
+      .head { font-size: 23px; font-weight: 800; fill: #172033; }
+      .sub { font-size: 14px; font-weight: 700; }
+      .line { font-size: 14px; font-weight: 500; fill: #55637a; }
+      .note { font-size: 13px; font-weight: 650; fill: #94a3b8; }
+      .phase { font-size: 17px; font-weight: 800; fill: #172033; }
+      .edge { font-size: 12px; font-weight: 650; fill: #64748b; }
+      .condhead { font-size: 17px; font-weight: 800; }
+      .foot { font-size: 15px; font-weight: 650; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#page-bg)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">四个原语，和一次任务的生命周期</text>
+    <text x="60" y="110" class="subtitle">所有资源都活在 atespace 里，表达为 ax.io/v1alpha1 manifest，一条命令应用</text>
+
+    <!-- primitives -->
+    <g filter="url(#shadow)">
+      <rect x="50" y="150" width="335" height="268" rx="18" fill="#eef4ff" stroke="#bfdbfe" stroke-width="1.5"/>
+      <rect x="435" y="150" width="335" height="268" rx="18" fill="#f4fdf9" stroke="#a7e3c8" stroke-width="1.5"/>
+      <rect x="820" y="150" width="335" height="268" rx="18" fill="#fffdf5" stroke="#fcd9a0" stroke-width="1.5"/>
+      <rect x="1205" y="150" width="335" height="268" rx="18" fill="#fff7f6" stroke="#f3c6c2" stroke-width="1.5"/>
+    </g>
+
+    <text x="75" y="190" class="head" fill="#1d4ed8">Task</text>
+    <text x="75" y="214" class="sub" fill="#1d4ed8">隔离执行的最小单位</text>
+    <text x="75" y="248" class="line">镜像、command、env</text>
+    <text x="75" y="272" class="line">CPU / 内存的 requests 与 limits</text>
+    <text x="75" y="296" class="line">引用一个 Gateway</text>
+    <text x="75" y="320" class="line">绑定一到多个 Workspace</text>
+    <text x="75" y="356" class="line" fill="#94a3b8">可以是一整件工作，也可以是</text>
+    <text x="75" y="378" class="line" fill="#94a3b8">智能体拆出来的一棵任务树的根</text>
+
+    <text x="460" y="190" class="head" fill="#047857">Workspace</text>
+    <text x="460" y="214" class="sub" fill="#047857">预热好的工作区</text>
+    <text x="460" y="248" class="line">git 仓库按分支、深度克隆</text>
+    <text x="460" y="272" class="line">MCP registry 与 server</text>
+    <text x="460" y="296" class="line">skill registry 与落地路径</text>
+    <text x="460" y="320" class="line">可选 goal：首启交给智能体补齐</text>
+    <text x="460" y="356" class="line" fill="#94a3b8">声明一次、被任意多个 Task 复用，</text>
+    <text x="460" y="378" class="line" fill="#94a3b8">每个沙箱启动前自动铺好</text>
+
+    <text x="845" y="190" class="head" fill="#b45309">Gateway</text>
+    <text x="845" y="214" class="sub" fill="#b45309">网络边界</text>
+    <text x="845" y="248" class="line">listeners 声明暴露的端口协议</text>
+    <text x="845" y="272" class="line">egress allowlist 收紧到主机:端口</text>
+    <text x="845" y="296" class="line">向出站请求注入凭据</text>
+    <text x="845" y="320" class="line">默认示例放行 443 上的全部主机</text>
+    <text x="845" y="356" class="line" fill="#94a3b8">生产环境应收紧到「模型服务商</text>
+    <text x="845" y="378" class="line" fill="#94a3b8">+ 代码托管」这类显式白名单</text>
+
+    <text x="1230" y="190" class="head" fill="#b91c1c">Model</text>
+    <text x="1230" y="214" class="sub" fill="#b91c1c">集中配置，不是模型本身</text>
+    <text x="1230" y="248" class="line">provider：google / anthropic 等</text>
+    <text x="1230" y="272" class="line">model 标识与生成参数</text>
+    <text x="1230" y="296" class="line">Kubernetes Secret 里的 API key</text>
+    <text x="1230" y="320" class="line">平台自身组件也读它</text>
+    <text x="1230" y="356" class="line" fill="#94a3b8">轮换密钥、切换版本只要一次</text>
+    <text x="1230" y="378" class="line" fill="#94a3b8">apply，不用翻遍每个任务定义</text>
+
+    <!-- lifecycle -->
+    <text x="60" y="472" class="sect">任务生命周期：相位（phase）只是一句概括，细节在条件（condition）里</text>
+
+    <g filter="url(#shadow)">
+      <rect x="50" y="492" width="210" height="134" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+      <rect x="304" y="492" width="210" height="134" rx="14" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.5"/>
+      <rect x="558" y="492" width="210" height="134" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+      <rect x="812" y="492" width="210" height="134" rx="14" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.5"/>
+      <rect x="1066" y="492" width="210" height="134" rx="14" fill="#ffffff" stroke="#f3c6c2" stroke-width="1.5"/>
+      <rect x="1320" y="492" width="210" height="134" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+
+    <text x="70" y="522" class="phase" fill="#64748b">Pending</text>
+    <text x="70" y="548" class="line">控制器正在供给</text>
+    <text x="70" y="570" class="line">atespace 与 actor</text>
+    <text x="70" y="600" class="note">Phase 为一句概括</text>
+
+    <text x="324" y="522" class="phase" fill="#1d4ed8">Running</text>
+    <text x="324" y="548" class="line">WorkspaceReady 为真</text>
+    <text x="324" y="570" class="line">spec.command 已在跑</text>
+    <text x="324" y="600" class="note">等待 Ready=True 再动</text>
+
+    <text x="578" y="522" class="phase" fill="#64748b">Suspended</text>
+    <text x="578" y="548" class="line">快照 /workspace 卷</text>
+    <text x="578" y="570" class="line">沙箱随之被销毁</text>
+    <text x="578" y="600" class="note">空闲等待不再占算力</text>
+
+    <text x="832" y="522" class="phase" fill="#1d4ed8">Running</text>
+    <text x="832" y="548" class="line">resume 后同一批文件</text>
+    <text x="832" y="570" class="line">但进程树是全新的</text>
+    <text x="832" y="600" class="note">幂等准备靠标记文件</text>
+
+    <text x="1086" y="522" class="phase" fill="#b91c1c">Terminating</text>
+    <text x="1086" y="548" class="line">控制器拆除沙箱</text>
+    <text x="1086" y="570" class="line">ax delete 阻塞到拆完</text>
+    <text x="1086" y="600" class="note">不留下孤儿 actor</text>
+
+    <text x="1340" y="522" class="phase" fill="#64748b">记录移除</text>
+    <text x="1340" y="548" class="line">任务从 atespace 中</text>
+    <text x="1340" y="570" class="line">彻底消失</text>
+    <text x="1340" y="600" class="note">生命周期到此结束</text>
+
+    <line x1="260" y1="559" x2="296" y2="559" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="514" y1="559" x2="550" y2="559" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="768" y1="559" x2="804" y2="559" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="1022" y1="559" x2="1058" y2="559" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="1276" y1="559" x2="1312" y2="559" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <text x="278" y="548" class="edge" text-anchor="middle">供给</text>
+    <text x="278" y="584" class="edge" text-anchor="middle">完成</text>
+    <text x="532" y="548" class="edge" text-anchor="middle">ax</text>
+    <text x="532" y="584" class="edge" text-anchor="middle">suspend</text>
+    <text x="786" y="548" class="edge" text-anchor="middle">ax</text>
+    <text x="786" y="584" class="edge" text-anchor="middle">resume</text>
+    <text x="1040" y="548" class="edge" text-anchor="middle">ax</text>
+    <text x="1040" y="584" class="edge" text-anchor="middle">delete</text>
+    <text x="1294" y="548" class="edge" text-anchor="middle">拆除</text>
+    <text x="1294" y="584" class="edge" text-anchor="middle">完成</text>
+
+    <!-- conditions -->
+    <text x="60" y="684" class="sect">三个真正要等的条件</text>
+
+    <g filter="url(#shadow)">
+      <rect x="50" y="704" width="490" height="164" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+      <rect x="555" y="704" width="490" height="164" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+      <rect x="1060" y="704" width="490" height="164" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+
+    <text x="80" y="738" class="condhead" fill="#1d4ed8">WorkspaceReady</text>
+    <text x="80" y="768" class="line">每个 workspace 都完成了准备（克隆、技能路径、</text>
+    <text x="80" y="792" class="line">MCP 配置，以及 goal 引导）；此后一直为 True。</text>
+    <text x="80" y="830" class="note">控制器轮询容器 /readyz 来置位这个条件</text>
+
+    <text x="585" y="738" class="condhead" fill="#b45309">GatewayReady</text>
+    <text x="585" y="768" class="line">网关声明的网络策略已经应用到沙箱上，</text>
+    <text x="585" y="792" class="line">egress 白名单在命令启动前就已生效。</text>
+    <text x="585" y="830" class="note">与 WorkspaceReady 并行推进</text>
+
+    <text x="1090" y="738" class="condhead" fill="#047857">Ready</text>
+    <text x="1090" y="768" class="line">任务在运行且 WorkspaceReady 为真——这是要等的那一个；</text>
+    <text x="1090" y="792" class="line">suspend 会把它置为 False（原因 TaskSuspended），resume 恢复。</text>
+    <text x="1090" y="830" class="note">ax watch 会把这些迁移实时推给你</text>
+
+    <rect x="50" y="890" width="1490" height="58" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="80" y="926" class="foot">把「准备环境」变成声明式的一步，是 AX 与直接跑容器最本质的区别</text>
+    <text x="1510" y="926" class="foot" text-anchor="end" fill="#047857">一个 Task 可以串起任意多个 Workspace</text>
+  </g>
+</svg>
