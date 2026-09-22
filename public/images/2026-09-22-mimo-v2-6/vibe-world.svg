@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">从 Vibe Coding 到 Vibe World</title>
+  <desc id="desc">MiMo-V2.6 的原生全模态基座，包含文本、图像、音频、视频、3D 空间推理与计算机使用智能体能力，向上支撑游戏开发、3D 建模、具身仿真、前端与设计、视频剪辑、音乐创作六类生产性任务，以及材料研究与数学形式化两项科研应用。</desc>
+  <defs>
+    <linearGradient id="page-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4f8ff"/>
+      <stop offset="0.34" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .zone { font-size: 24px; font-weight: 800; }
+      .zone-sub { font-size: 15px; font-weight: 700; fill: #64748b; }
+      .card { font-size: 21px; font-weight: 800; fill: #172033; }
+      .line { font-size: 15px; font-weight: 500; fill: #55637a; }
+      .pill { font-size: 16px; font-weight: 700; fill: #1d4ed8; }
+      .foot { font-size: 15px; font-weight: 650; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#page-bg)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">从 Vibe Coding 到 Vibe World</text>
+    <text x="60" y="110" class="subtitle">原生全模态基座把自然语言驱动的编程，从造软件扩展到造可交互的世界</text>
+
+    <!-- base model hub -->
+    <g filter="url(#shadow)">
+      <rect x="50" y="170" width="400" height="430" rx="20" fill="#eef4ff" stroke="#bfdbfe" stroke-width="2"/>
+    </g>
+    <text x="80" y="216" class="zone" fill="#1d4ed8">MiMo-V2.6</text>
+    <text x="80" y="244" class="zone-sub">原生全模态基座</text>
+
+    <g font-size="0">
+      <rect x="80" y="272" width="160" height="40" rx="10" fill="#ffffff" stroke="#c7d9f5" stroke-width="1.5"/>
+      <text x="160" y="298" class="pill" text-anchor="middle">文本</text>
+      <rect x="256" y="272" width="160" height="40" rx="10" fill="#ffffff" stroke="#c7d9f5" stroke-width="1.5"/>
+      <text x="336" y="298" class="pill" text-anchor="middle">图像</text>
+      <rect x="80" y="324" width="160" height="40" rx="10" fill="#ffffff" stroke="#c7d9f5" stroke-width="1.5"/>
+      <text x="160" y="350" class="pill" text-anchor="middle">音频</text>
+      <rect x="256" y="324" width="160" height="40" rx="10" fill="#ffffff" stroke="#c7d9f5" stroke-width="1.5"/>
+      <text x="336" y="350" class="pill" text-anchor="middle">视频</text>
+    </g>
+
+    <text x="80" y="410" class="line">3D 空间推理</text>
+    <text x="80" y="438" class="line">计算机使用智能体（CUA）</text>
+    <text x="80" y="466" class="line">多模态感知与视觉反馈闭环</text>
+    <text x="80" y="510" class="line" fill="#94a3b8">不是把多个专用模型拼起来，</text>
+    <text x="80" y="536" class="line" fill="#94a3b8">而是同一套基座上的原生能力</text>
+
+    <line x1="450" y1="300" x2="500" y2="270" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="450" y1="385" x2="500" y2="385" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="450" y1="470" x2="500" y2="500" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- capability grid 3x2 -->
+    <g filter="url(#shadow)">
+      <rect x="510" y="170" width="340" height="200" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+      <rect x="880" y="170" width="340" height="200" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+      <rect x="1250" y="170" width="340" height="200" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+      <rect x="510" y="400" width="340" height="200" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+      <rect x="880" y="400" width="340" height="200" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+      <rect x="1250" y="400" width="340" height="200" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+
+    <text x="540" y="212" class="card">游戏开发</text>
+    <text x="540" y="248" class="line">图片 / 视频 / 文本提示拆成多任务</text>
+    <text x="540" y="274" class="line">多智能体搭 3D 场景与交互逻辑</text>
+    <text x="540" y="300" class="line">依渲染结果迭代出可运行世界</text>
+
+    <text x="910" y="212" class="card">3D 建模</text>
+    <text x="910" y="248" class="line">在 Blender 中依文字或参考图</text>
+    <text x="910" y="274" class="line">生成 3D 物体与场景</text>
+    <text x="910" y="300" class="line">服务动画、3D 打印与游戏</text>
+
+    <text x="1280" y="212" class="card">具身仿真</text>
+    <text x="1280" y="248" class="line">直接以多视角相机画面为输入</text>
+    <text x="1280" y="274" class="line">视觉反馈闭环控制 Franka Panda</text>
+    <text x="1280" y="300" class="line">抓取、颜色匹配与精确放置</text>
+
+    <text x="540" y="442" class="card">前端与设计</text>
+    <text x="540" y="478" class="line">一句话生成完整界面或幻灯片</text>
+    <text x="540" y="504" class="line">结构化布局、组件与动画</text>
+    <text x="540" y="530" class="line">熟用 Figma 与图像 / 视频工具</text>
+
+    <text x="910" y="442" class="card">视频剪辑</text>
+    <text x="910" y="478" class="line">视觉设计、镜头与运动编排</text>
+    <text x="910" y="504" class="line">配乐与卡点剪辑端到端完成</text>
+    <text x="910" y="530" class="line">旁白由 MiMo-V2.5-TTS 对齐画面</text>
+
+    <text x="1280" y="442" class="card">音乐创作</text>
+    <text x="1280" y="478" class="line">首次探索作曲能力</text>
+    <text x="1280" y="504" class="line">约十件乐器的管弦乐配器</text>
+    <text x="1280" y="530" class="line">自行写出乐谱并转成 MIDI</text>
+
+    <!-- research band -->
+    <g filter="url(#shadow)">
+      <rect x="50" y="646" width="1540" height="180" rx="18" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="80" y="688" class="card">科研：没有专项 RL 调优，也已显出可用性</text>
+    <text x="80" y="726" class="line"><tspan font-weight="800" fill="#172033">材料研究　</tspan>设计可吸附 PFAS 的全新 MOF 材料：检索文献与专利、提出假设、评估新颖性，</text>
+    <text x="80" y="752" class="line">再自动搭建仿真环境做"干实验"，算出骨架与 PFOA 客体的结合强度（约 −2.78 eV）</text>
+    <text x="80" y="794" class="line"><tspan font-weight="800" fill="#172033">数学形式化　</tspan>完成《Period Three Implies Chaos》主定理的 Lean 4 形式化，超过 6,000 行源码，</text>
+    <text x="80" y="820" class="line">由 Lean 内核验证通过、无遗留占位符——且模型未接受过 Lean 专项后训练</text>
+  </g>
+</svg>
