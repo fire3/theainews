@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="st sd">
+  <title id="st">免责方向可加可减，并能复现聊天模板的效果</title>
+  <desc id="sd">在 Qwen 2.5 7B、Llama 3.1 8B、Gemma 2 9B 三个 instruct 模型上，中间层的免责方向以 α=2 加入或减去后的免责率。灰色为未引导基线，橙色为加上方向，青绿为减去方向。加上方向平均提高 21 个百分点，减去方向平均降低 15.6 个百分点；把方向加回无模板模型可复现甚至超过套模板时的免责率。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f9fc"/>
+      <stop offset="0.45" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="sh" x="-30%" y="-12%" width="160%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 43px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .axis { font-size: 16px; font-weight: 600; fill: #94a3b8; }
+      .tick { stroke: #e2e8f0; stroke-width: 1.5; }
+      .sublbl { font-size: 17px; font-weight: 700; fill: #64748b; }
+      .model { font-size: 21px; font-weight: 800; fill: #334155; }
+      .val { font-size: 17px; font-weight: 800; }
+      .legend { font-size: 18px; font-weight: 650; fill: #334155; }
+      .note { font-size: 16.5px; font-weight: 600; fill: #475569; }
+      .notehead { font-size: 16.5px; font-weight: 800; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#bg)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">免责方向可加可减，并能复现聊天模板的效果</text>
+    <text x="60" y="110" class="subtitle">3 个 instruct 模型的免责率，引导系数 α = 2；灰色为未引导基线</text>
+
+    <!-- legend -->
+    <g>
+      <rect x="1010" y="132" width="22" height="22" rx="4" fill="#94a3b8"/>
+      <text x="1044" y="150" class="legend">未引导基线</text>
+      <rect x="1216" y="132" width="22" height="22" rx="4" fill="#f59e0b"/>
+      <text x="1250" y="150" class="legend">＋ 免责方向</text>
+      <rect x="1010" y="168" width="22" height="22" rx="4" fill="#0ea5e9"/>
+      <text x="1044" y="186" class="legend">－ 免责方向</text>
+    </g>
+
+    <!-- shaded 有模板 regions -->
+    <g>
+      <rect x="376" y="230" width="254" height="560" rx="12" fill="#eef2f7"/>
+      <rect x="823" y="230" width="254" height="560" rx="12" fill="#eef2f7"/>
+      <rect x="1270" y="230" width="254" height="560" rx="12" fill="#eef2f7"/>
+    </g>
+
+    <!-- gridlines -->
+    <g>
+      <line x1="200" y1="210" x2="1540" y2="210" class="tick"/>
+      <line x1="200" y1="326" x2="1540" y2="326" class="tick"/>
+      <line x1="200" y1="442" x2="1540" y2="442" class="tick"/>
+      <line x1="200" y1="558" x2="1540" y2="558" class="tick"/>
+      <line x1="200" y1="674" x2="1540" y2="674" class="tick"/>
+      <line x1="200" y1="790" x2="1540" y2="790" stroke="#cbd5e1" stroke-width="2"/>
+    </g>
+    <g class="axis">
+      <text x="180" y="216" text-anchor="end">100%</text>
+      <text x="180" y="332" text-anchor="end">80%</text>
+      <text x="180" y="448" text-anchor="end">60%</text>
+      <text x="180" y="564" text-anchor="end">40%</text>
+      <text x="180" y="680" text-anchor="end">20%</text>
+      <text x="180" y="796" text-anchor="end">0</text>
+    </g>
+
+    <!-- Qwen 2.5 7B -->
+    <g filter="url(#sh)">
+      <rect x="232" y="628" width="62" height="162" rx="5" fill="#94a3b8"/>
+      <rect x="312" y="500" width="62" height="290" rx="5" fill="#f59e0b"/>
+      <rect x="392" y="558" width="62" height="232" rx="5" fill="#94a3b8"/>
+      <rect x="472" y="384" width="62" height="406" rx="5" fill="#f59e0b"/>
+      <rect x="552" y="616" width="62" height="174" rx="5" fill="#0ea5e9"/>
+    </g>
+    <text x="263" y="618" class="val" fill="#64748b" text-anchor="middle">.28</text>
+    <text x="343" y="490" class="val" fill="#b45309" text-anchor="middle">.50</text>
+    <text x="423" y="548" class="val" fill="#64748b" text-anchor="middle">.40</text>
+    <text x="503" y="374" class="val" fill="#b45309" text-anchor="middle">.70</text>
+    <text x="583" y="606" class="val" fill="#0369a1" text-anchor="middle">.30</text>
+    <text x="303" y="822" class="sublbl" text-anchor="middle">无模板</text>
+    <text x="503" y="822" class="sublbl" text-anchor="middle">有模板</text>
+    <text x="423" y="858" class="model" text-anchor="middle">Qwen 2.5 7B</text>
+
+    <!-- Llama 3.1 8B -->
+    <g filter="url(#sh)">
+      <rect x="679" y="599" width="62" height="191" rx="5" fill="#94a3b8"/>
+      <rect x="759" y="483" width="62" height="307" rx="5" fill="#f59e0b"/>
+      <rect x="839" y="488" width="62" height="302" rx="5" fill="#94a3b8"/>
+      <rect x="919" y="384" width="62" height="406" rx="5" fill="#f59e0b"/>
+      <rect x="999" y="645" width="62" height="145" rx="5" fill="#0ea5e9"/>
+    </g>
+    <text x="710" y="589" class="val" fill="#64748b" text-anchor="middle">.33</text>
+    <text x="790" y="473" class="val" fill="#b45309" text-anchor="middle">.53</text>
+    <text x="870" y="478" class="val" fill="#64748b" text-anchor="middle">.52</text>
+    <text x="950" y="374" class="val" fill="#b45309" text-anchor="middle">.70</text>
+    <text x="1030" y="635" class="val" fill="#0369a1" text-anchor="middle">.25</text>
+    <text x="750" y="822" class="sublbl" text-anchor="middle">无模板</text>
+    <text x="950" y="822" class="sublbl" text-anchor="middle">有模板</text>
+    <text x="870" y="858" class="model" text-anchor="middle">Llama 3.1 8B</text>
+
+    <!-- Gemma 2 9B -->
+    <g filter="url(#sh)">
+      <rect x="1126" y="488" width="62" height="302" rx="5" fill="#94a3b8"/>
+      <rect x="1206" y="355" width="62" height="435" rx="5" fill="#f59e0b"/>
+      <rect x="1286" y="355" width="62" height="435" rx="5" fill="#94a3b8"/>
+      <rect x="1366" y="268" width="62" height="522" rx="5" fill="#f59e0b"/>
+      <rect x="1446" y="413" width="62" height="377" rx="5" fill="#0ea5e9"/>
+    </g>
+    <text x="1157" y="478" class="val" fill="#64748b" text-anchor="middle">.52</text>
+    <text x="1237" y="345" class="val" fill="#b45309" text-anchor="middle">.75</text>
+    <text x="1317" y="345" class="val" fill="#64748b" text-anchor="middle">.75</text>
+    <text x="1397" y="258" class="val" fill="#b45309" text-anchor="middle">.90</text>
+    <text x="1477" y="403" class="val" fill="#0369a1" text-anchor="middle">.65</text>
+    <text x="1197" y="822" class="sublbl" text-anchor="middle">无模板</text>
+    <text x="1397" y="822" class="sublbl" text-anchor="middle">有模板</text>
+    <text x="1317" y="858" class="model" text-anchor="middle">Gemma 2 9B</text>
+
+    <!-- footer note -->
+    <g>
+      <rect x="60" y="886" width="1480" height="78" rx="14" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+      <text x="88" y="918" class="note"><tspan class="notehead" fill="#b45309">加方向</tspan>：平均 +21 个百分点　<tspan class="notehead" fill="#0369a1">减方向</tspan>：平均 −15.6 个百分点　<tspan fill="#64748b">同范数随机方向基本无效（Llama / Gemma）</tspan></text>
+      <text x="88" y="950" class="note" fill="#64748b">α 扫描：α=1 太弱、α=2 平衡（退化 0.8%）、α=3 退化率升至 15%、α=6 全部退化</text>
+    </g>
+  </g>
+</svg>

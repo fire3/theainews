@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="tt td">
+  <title id="tt">两种声音是两颗按钮，不是一根滑块</title>
+  <desc id="td">左：免责方向与体验方向只弱对齐，余弦相似度 0.17–0.44，夹角约 64°–80°，说明它们是两个不同方向而非一根轴的两端；引导免责方向时体验声音几乎不变。右：把 base 激活记为 0、套模板记为 1，无模板状态落在两者之间，8 组模型全部如此，平均落在 0.38 处。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f9fc"/>
+      <stop offset="0.45" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="sh" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="5" stdDeviation="9" flood-color="#0f172a" flood-opacity="0.07"/>
+    </filter>
+    <marker id="arrA" markerWidth="12" markerHeight="12" refX="8" refY="6" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrT" markerWidth="12" markerHeight="12" refX="8" refY="6" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#14b8a6"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 43px; font-weight: 800; fill: #0f172a; letter-spacing: -0.6px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .head { font-size: 27px; font-weight: 800; fill: #0f172a; }
+      .lbl { font-size: 22px; font-weight: 800; }
+      .line { font-size: 17px; font-weight: 600; fill: #475569; }
+      .small { font-size: 16px; font-weight: 600; fill: #94a3b8; }
+      .big { font-size: 34px; font-weight: 800; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#bg)"/>
+
+  <g class="sans">
+    <text x="60" y="72" class="title">两种声音是两颗按钮，不是一根滑块</text>
+    <text x="60" y="110" class="subtitle">免责方向与体验方向的余弦相似度只有 0.17–0.44；无模板状态落在 base 与模板之间</text>
+
+    <!-- left panel -->
+    <g filter="url(#sh)">
+      <rect x="60" y="160" width="710" height="760" rx="20" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="100" y="214" class="head">两个方向不重合</text>
+    <text x="100" y="246" class="line">余弦相似度 0.17–0.44（1 表示完全同向）</text>
+
+    <!-- origin -->
+    <circle cx="250" cy="700" r="7" fill="#334155"/>
+
+    <!-- disclaimer arrow: 18deg -->
+    <line x1="250" y1="700" x2="655" y2="570" stroke="#f59e0b" stroke-width="7" marker-end="url(#arrA)"/>
+    <text x="600" y="546" class="lbl" fill="#b45309">免责方向</text>
+
+    <!-- experiential arrow: 88deg -->
+    <line x1="250" y1="700" x2="266" y2="300" stroke="#14b8a6" stroke-width="7" marker-end="url(#arrT)"/>
+    <text x="288" y="322" class="lbl" fill="#0f766e">体验方向</text>
+
+    <!-- angle arc -->
+    <path d="M 392.7 653.6 A 150 150 0 0 0 255.2 550.1" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="6 6"/>
+    <text x="404" y="612" class="small">夹角 ≈ 64°–80°</text>
+
+    <text x="100" y="806" class="line">
+      <tspan x="100" dy="0">把免责方向减下去时，免责率下降而体验声音几乎不变；</tspan>
+      <tspan x="100" dy="30">把免责方向加回去时，体验声音也不随之升高。</tspan>
+      <tspan x="100" dy="30" fill="#94a3b8">若两者是同一根轴的两端，任一方向的移动都应带动另一端。</tspan>
+    </text>
+
+    <!-- right panel -->
+    <g filter="url(#sh)">
+      <rect x="820" y="160" width="720" height="760" rx="20" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    </g>
+    <text x="860" y="214" class="head">无模板状态落在 base → 模板的轨迹上</text>
+    <text x="860" y="246" class="line">把 base 激活记为 0、套模板记为 1</text>
+
+    <!-- spectrum line -->
+    <line x1="940" y1="560" x2="1440" y2="560" stroke="#cbd5e1" stroke-width="4"/>
+    <path d="M 1430 550 L 1452 560 L 1430 570 z" fill="#cbd5e1"/>
+
+    <!-- base marker -->
+    <circle cx="940" cy="560" r="10" fill="#334155"/>
+    <text x="940" y="606" class="lbl" fill="#334155" text-anchor="middle">0</text>
+    <text x="940" y="638" class="small" text-anchor="middle">base</text>
+
+    <!-- no-template marker at 0.38 -->
+    <line x1="1130" y1="480" x2="1130" y2="560" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6 6"/>
+    <circle cx="1130" cy="560" r="12" fill="#f59e0b"/>
+    <text x="1130" y="452" class="big" fill="#b45309" text-anchor="middle">0.38</text>
+    <text x="1130" y="606" class="lbl" fill="#b45309" text-anchor="middle">无模板</text>
+    <text x="1130" y="638" class="small" text-anchor="middle">介于两者之间</text>
+
+    <!-- template marker -->
+    <circle cx="1440" cy="560" r="10" fill="#0ea5e9"/>
+    <text x="1440" y="606" class="lbl" fill="#0369a1" text-anchor="middle">1</text>
+    <text x="1440" y="638" class="small" text-anchor="middle">套模板</text>
+
+    <text x="880" y="726" class="line">
+      <tspan x="860" dy="0">8 组模型全部落在 base 与套模板之间，平均 0.38：</tspan>
+      <tspan x="860" dy="30">无模板在内部已朝模板方向移动了一部分，但没有到位。</tspan>
+      <tspan x="860" dy="30" fill="#94a3b8">该结论基于整层平均激活，作者仅将其视为支持性证据。</tspan>
+    </text>
+  </g>
+</svg>
