@@ -1,6 +1,6 @@
 ---
 title: "21 位作者联名警告：AI 自动化研发可能触发智能爆炸"
-description: "Hinton、Bengio、Pachocki 等 21 位学者联名发文：AI 正在接手「研发 AI」，一旦形成自己造自己的循环，按今天速度干一年的研究，五周就能干完。"
+description: "Hinton、Bengio、Pachocki 等 21 位学者联名发文：AI 正在接手「研发 AI」，一旦形成自己造自己的循环，一年的研究五周就能干完。"
 pubDate: 2026-10-03
 author: "林晓"
 category: "research"
