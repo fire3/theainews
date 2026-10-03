@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="580" viewBox="0 0 1040 580" font-family="'Noto Sans CJK SC','Noto Sans SC','WenQuanYi Micro Hei',sans-serif">
+  <rect width="1040" height="580" fill="#ffffff"/>
+  <text x="40" y="46" font-size="24" font-weight="700" fill="#1a1b26">Muse Gadgets 是怎么把板子和智能体接起来的</text>
+  <text x="40" y="74" font-size="14" fill="#868e96">板子负责「碰到真实世界」，Muse 负责「想和安排」；配一次对，之后一直连着</text>
+  <rect x="32" y="108" width="296" height="432" rx="8" fill="#f8f9fa" stroke="#e9ecef"/>
+  <text x="52" y="140" font-size="12" font-weight="700" fill="#adb5bd">01 /</text>
+  <text x="72" y="140" font-size="16" font-weight="700" fill="#1a1b26">你手边的硬件</text>
+  <rect x="364" y="108" width="312" height="432" rx="8" fill="#f8f9fa" stroke="#e9ecef"/>
+  <text x="384" y="140" font-size="12" font-weight="700" fill="#adb5bd">02 /</text>
+  <text x="404" y="140" font-size="16" font-weight="700" fill="#1a1b26">配一次对</text>
+  <rect x="712" y="108" width="296" height="432" rx="8" fill="#f8f9fa" stroke="#e9ecef"/>
+  <text x="732" y="140" font-size="12" font-weight="700" fill="#adb5bd">03 /</text>
+  <text x="752" y="140" font-size="16" font-weight="700" fill="#1a1b26">Muse（云端）</text>
+  <rect x="52" y="168" width="256" height="70" rx="6" fill="#ffffff" stroke="#dee2e6"/>
+  <text x="68" y="196" font-size="14.5" font-weight="600" fill="#1a1b26">ESP32 开发板</text>
+  <text x="68" y="218" font-size="12.5" fill="#868e96">屏幕 · 按钮 · 麦克风 · 传感器</text>
+  <rect x="52" y="250" width="256" height="70" rx="6" fill="#ffffff" stroke="#dee2e6"/>
+  <text x="68" y="278" font-size="14.5" font-weight="600" fill="#1a1b26">树莓派 / Linux 电脑</text>
+  <text x="68" y="300" font-size="12.5" fill="#868e96">执行命令 · 读写文件 · 看健康状态</text>
+  <rect x="52" y="332" width="256" height="70" rx="6" fill="#ffffff" stroke="#dee2e6"/>
+  <text x="68" y="360" font-size="14.5" font-weight="600" fill="#1a1b26">Muse Home Link</text>
+  <text x="68" y="382" font-size="12.5" fill="#868e96">官方硬件 · USB-C · ESP32-C5</text>
+  <text x="52" y="446" font-size="12.5" fill="#868e96">同一套开源固件，能力取决于</text>
+  <text x="52" y="466" font-size="12.5" fill="#868e96">板子上装了什么</text>
+  <text x="52" y="500" font-size="12.5" font-weight="600" fill="#4263eb">Apache 2.0 开源</text>
+  <text x="52" y="520" font-size="12.5" fill="#868e96">SDK 与固件都在 GitHub 上</text>
+  <circle cx="386" cy="181" r="11" fill="#4263eb"/>
+  <text x="386" y="186" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+  <text x="406" y="185" font-size="14" font-weight="600" fill="#1a1b26">领一个 SDK token</text>
+  <text x="406" y="205" font-size="12" fill="#868e96">每台设备一个，相当于介绍信</text>
+  <line x1="386" y1="195" x2="386" y2="224" stroke="#ced4da" stroke-width="1.5"/>
+  <circle cx="386" cy="245" r="11" fill="#4263eb"/>
+  <text x="386" y="250" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+  <text x="406" y="249" font-size="14" font-weight="600" fill="#1a1b26">刷固件 / 装服务</text>
+  <text x="406" y="269" font-size="12" fill="#868e96">ESP-IDF 编译烧写，或一行命令安装</text>
+  <line x1="386" y1="259" x2="386" y2="288" stroke="#ced4da" stroke-width="1.5"/>
+  <circle cx="386" cy="309" r="11" fill="#4263eb"/>
+  <text x="386" y="314" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+  <text x="406" y="313" font-size="14" font-weight="600" fill="#1a1b26">打开 Muse 的开发者模式</text>
+  <text x="406" y="333" font-size="12" fill="#868e96">Muse App → 设置 → 设备</text>
+  <line x1="386" y1="323" x2="386" y2="352" stroke="#ced4da" stroke-width="1.5"/>
+  <circle cx="386" cy="373" r="11" fill="#4263eb"/>
+  <text x="386" y="378" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+  <text x="406" y="377" font-size="14" font-weight="600" fill="#1a1b26">蓝牙配对上</text>
+  <text x="406" y="397" font-size="12" fill="#868e96">按一下设备上的按钮确认是你本人</text>
+  <line x1="386" y1="387" x2="386" y2="416" stroke="#ced4da" stroke-width="1.5"/>
+  <circle cx="386" cy="437" r="11" fill="#4263eb"/>
+  <text x="386" y="442" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
+  <text x="406" y="441" font-size="14" font-weight="600" fill="#1a1b26">加入家里的 Wi-Fi</text>
+  <text x="406" y="461" font-size="12" fill="#868e96">指示灯变绿，连接完成</text>
+  <rect x="384" y="486" width="272" height="36" rx="6" fill="#fff4e6" stroke="#ffd8a8"/>
+  <text x="398" y="509" font-size="12.5" fill="#a3620a">会话加密；配对只在设备上手动开启</text>
+  <rect x="732" y="168" width="256" height="96" rx="6" fill="#ffffff" stroke="#dee2e6"/>
+  <text x="748" y="200" font-size="18" font-weight="700" fill="#1a1b26">Muse</text>
+  <text x="748" y="224" font-size="12.5" fill="#868e96">Meta 的个人 AI 智能体</text>
+  <text x="748" y="246" font-size="12.5" fill="#868e96">看图片 · 写字回答 · 安排任务</text>
+  <line x1="860" y1="264" x2="860" y2="300" stroke="#adb5bd" stroke-width="1.5"/>
+  <path d="M855 296 L860 306 L865 296 Z" fill="#adb5bd"/>
+  <text x="866" y="288" font-size="11.5" fill="#868e96">内网隧道</text>
+  <rect x="732" y="312" width="256" height="130" rx="6" fill="#ffffff" stroke="#dee2e6"/>
+  <text x="748" y="340" font-size="13.5" font-weight="600" fill="#1a1b26">你家已有的设备</text>
+  <rect x="748" y="358" width="36.5" height="26" rx="13" fill="#e7f5ff" stroke="#a5d8ff"/>
+  <text x="766.25" y="376" font-size="12.5" fill="#1971c2" text-anchor="middle">灯</text>
+  <rect x="798.5" y="358" width="49.0" height="26" rx="13" fill="#e7f5ff" stroke="#a5d8ff"/>
+  <text x="823.0" y="376" font-size="12.5" fill="#1971c2" text-anchor="middle">电视</text>
+  <rect x="748" y="392" width="49.0" height="26" rx="13" fill="#e7f5ff" stroke="#a5d8ff"/>
+  <text x="772.5" y="410" font-size="12.5" fill="#1971c2" text-anchor="middle">音箱</text>
+  <rect x="811.0" y="392" width="61.5" height="26" rx="13" fill="#e7f5ff" stroke="#a5d8ff"/>
+  <text x="841.75" y="410" font-size="12.5" fill="#1971c2" text-anchor="middle">打印机</text>
+  <text x="748" y="446" font-size="12" fill="#868e96">再加上任何带本地 HTTP 接口</text>
+  <text x="748" y="464" font-size="12" fill="#868e96">的自制设备（靠社区技能）</text>
+  <text x="732" y="500" font-size="12.5" font-weight="600" fill="#2f9e44">不换设备，只装技能</text>
+  <text x="732" y="520" font-size="12.5" fill="#868e96">社区技能可能失效，别用于安防</text>
+  <line x1="328" y1="300" x2="358" y2="300" stroke="#adb5bd" stroke-width="1.5"/>
+  <path d="M354 295 L364 300 L354 305 Z" fill="#adb5bd"/>
+  <line x1="676" y1="300" x2="706" y2="300" stroke="#adb5bd" stroke-width="1.5"/>
+  <path d="M702 295 L712 300 L702 305 Z" fill="#adb5bd"/>
+  <text x="40" y="566" font-size="12.5" fill="#868e96">说明：ESP32 板子通过蓝牙配对、Wi-Fi 上线；树莓派等 Linux 设备用蓝牙配对后沿用自身网络。</text>
+</svg>
