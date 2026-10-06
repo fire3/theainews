@@ -4,13 +4,27 @@ description: "Chips and Cheese 实测 NVIDIA Vera 的 Olympus：10 宽乱序、3
 pubDate: 2026-10-06
 author: "林晓"
 category: "research"
-tags: ["NVIDIA", "Olympus", "Vera", "CPU 微架构", "SMT", "SPEC CPU", "Arm X925", "Zen 5"]
+tags: ["NVIDIA", "Olympus", "Vera CPU", "CPU 微架构", "SMT", "SPEC CPU", "Arm X925", "Zen 5", "智能体 AI", "SOCAMM2"]
 image: "/covers/2026-10-06-nvidia-olympus-core.jpg"
 imageAlt: "封面：冷色学术风，浅灰底，左侧标题「NVIDIA Olympus 服务器单线程新上限」与三条要点，右侧为青色线条绘制的核心结构框图示意"
 topStory: true
 ---
 
-2026 年 10 月 5 日，硬件深度分析媒体 Chips and Cheese 发布了对 NVIDIA Vera 平台 CPU 核心 Olympus 的详测，作者是 Chester Lam。传统上服务器核心的单线程性能总比同期桌面核心弱，但这一差距在收窄：AMD 近两代服务器核心把频率越推越高，而 <strong>NVIDIA Olympus 选择了另一条路——不追频率，靠每时钟周期的性能（IPC）把服务器单线程性能顶到接近桌面的水平</strong>。
+2026 年 10 月 5 日，硬件深度分析媒体 Chips and Cheese 发布了对 NVIDIA Vera 平台 CPU 核心 Olympus 的详测，作者是 Chester Lam。传统上服务器核心的单线程性能总比同期桌面核心弱，但这一差距在收窄：AMD 近两代服务器核心把频率越推越高，而 <strong>NVIDIA Olympus 选择了另一条路——不追频率，靠每时钟周期的性能（IPC）把服务器单线程性能顶到接近桌面的水平</strong>。本文结合 Chips and Cheese 的独立实测与 NVIDIA 官方技术博客，把 Olympus 核心与它所处的 Vera CPU 平台放在一起介绍。
+
+## 先看平台：Vera CPU 为智能体 AI 定制
+
+要理解 Olympus 为什么长成这样，得先看它所在的平台。NVIDIA 在同期发布的技术博客中把 Vera CPU 的定位讲得很直白：<strong>智能体 AI 正在把关键执行路径推回 CPU</strong>。智能体在沙箱里执行代码、调用工具、检索上下文、访问数据库、分析结果，然后再把信息交回模型；当成千上万个这样的循环在 AI 工厂里并发运行时，CPU 性能直接决定单个智能体的响应速度和整体吞吐。
+
+这类负载的需求与传统云 CPU 不同，NVIDIA 归纳为四点：插槽满载时仍要有强劲的单线程性能、每核心要有足够的内存带宽来供给大量活跃执行上下文、并发下的延迟要可预测、要能高效处理不规则控制流与长依赖链（大量指针追逐）。而传统云 CPU 的设计思路是堆核心密度、服务更均匀的负载。也因此，Vera 把 Olympus 的核心目标定为「最大化 IPC」而不是频率。
+
+NVIDIA 把 Olympus 分成四个部分：前端（强分支预测 + 高带宽取指 + 10 宽解码）、中间核心（重命名/分配、大重排序缓冲与物理寄存器，并用内存重命名、值预测、关键路径加速来打破依赖）、执行引擎（整数/分支/向量/浮点/加密/访存资源均衡调度）、缓存子系统（深层缓存层次 + 内存消歧 + 多个硬件预取引擎）。其中<strong>最值得注意的是一个专门为图分析设计的「图预取器（graph prefetcher）」</strong>——因为智能体常处理运行时对象、检索索引、工具状态、图结构与稀疏数据，这类访问每个地址都依赖上一次查找的结果，传统预取器几乎无能为力。
+
+Olympus 还带来一个此前从未在 NVIDIA CPU 上出现的特性：Spatial Multithreading（空间多线程）。<strong>Vera CPU 共 88 个 Olympus 核心、176 个 SMT 线程</strong>，NVIDIA 的说法是：既可以让它作为高吞吐单线程核心运行（兄弟线程只处理管理类活动），也可以当作两个更隔离的执行上下文来提高线程密度，从而减少线程间干扰、给出更一致的延迟——这正是 Chips and Cheese 在实测中确认的「静态切分」策略，好处与代价都来自这一点。
+
+![Vera CPU 的 Scalable Coherency Fabric 与内存子系统：核心、共享缓存与内存控制器挂在同一张相干片上网络（图源：NVIDIA Developer Blog）](/images/vera-cpu-scf-memory.jpg)
+
+平台层面，Vera CPU 用 NVIDIA Scalable Coherency Fabric（SCF）把核心、共享缓存、内存控制器、I/O 与 NVLink-C2C 接口连成一张相干高带宽片上网络，<strong>双向对分带宽最高 3.4 TB/s，并集成 164 MB 统一 L3 缓存</strong>；缓存与互连都在同一颗单体计算 die 上，避免了 chiplet 拆分常见的跨 die 跳转延迟与波动。内存则改用 SOCAMM2 形态的 LPDDR5X：<strong>聚合带宽最高 1.2 TB/s，折合每核心最高 14 GB/s</strong>，相比 DDR5、MRDIMM 服务器方案在同样带宽下内存功耗明显更低；而且它是模块化、可现场更换的，不再是焊死的 LPDDR，兼顾了数据中心的可维护性（RAS）。
 
 ## 低频宽核：学 Cortex X925，再放大一圈
 
@@ -170,6 +184,26 @@ Arm 早期的服务器芯片重核数而轻单核性能，随着新核心不断�
 
 对上 Arm Neoverse 阵营，Olympus 在每核心吞吐上占尽优势：既因为单线程性能高，也因为第二个线程能进一步拉高吞吐——当 Arm 核心根本无法同时跑第二个线程时，讨论常规 SMT 与空间多线程孰优孰劣已无意义。相比上一代 Grace（无论是更快的核心还是更多的核心），Vera 是一次巨大跃升。
 
+## 平台层面：双路单 NUMA、I/O 与机密计算
+
+Vera CPU 支持双路扩展，用第二代 NVLink-C2C 做插槽间相干互连。这里 NVIDIA 特意强调了一个「软件优先」的设计：<strong>每颗插槽对外呈现为一个 NUMA 域，双路系统就是干净的 2 NUMA 节点拓扑</strong>；而传统 x86 的 chiplet 设计可能在一个插槽内就暴露多个 NUMA 域，大规模双路系统里能堆到几十个 NUMA 域，需要软件小心翼翼地把线程、内存和 I/O 摆到正确位置，否则就要吃远程访问和额外 die 跳转带来的延迟抖动。
+
+![左：传统 x86 CPU 最多可暴露 32 个 NUMA 域；右：双路 Vera 只有 2 个 NUMA 域（图源：NVIDIA Developer Blog）](/images/vera-cpu-numa-topology.jpg)
+
+I/O 方面提供 PCIe 6.4，双路配置共 176 条 PCIe 通道，并支持 CXL 3.1（相干内存扩展、内存池化与可组合基础设施）。机密计算方面，Vera Rubin NVL72 把机密计算从单机扩展到整个 scale-up 域，基于 Arm CCA/RME 与每虚拟机独立密钥做机密虚拟机隔离，支持安全分配具备 TDISP 能力的相干设备，并对相干链路使用经过认证的 C2C 加密——目标是在不额外拷贝数据的前提下保护「使用中」的数据。
+
+NVIDIA 自己给出的性能口径是：在插槽满载（fully loaded socket）条件下的每核心性能，Vera CPU 在 SPEC CPU2026 的 723.llvm_r、727.cppcheck_r、721.gcc_r 上达到 AMD EPYC 9755（Turin）的 1.7 倍，714.cpython_r 上达到 1.8 倍。它强调这个指标比空载单线程成绩更有代表性，因为智能体场景下大量沙箱、工具与环境并发运行，单线程的进展必须在整颗 CPU 共享功率、缓存、内存带宽与互连资源时依然成立。
+
+![满负载插槽下的每核心估算性能：Vera CPU 相对 AMD Turin 9755 为 1.7–1.8 倍（图源：NVIDIA Developer Blog）](/images/vera-cpu-spec2026-loaded.jpg)
+
+## 厂商口径与第三方实测的差异
+
+把 NVIDIA 的博客和 Chips and Cheese 的实测放在一起读会更有意思，两者并不矛盾，但侧重不同：
+
+- <strong>分支预测</strong>：NVIDIA 强调 Olympus 使用「神经分支预测器」，在统计上有偏向的困难分支模式上更准；C&amp;C 的实测则显示，其方向预测能力其实略逊于 Arm Cortex X925，SPEC CPU2026 准确率也略低于 Zen 5——宣传口径描述的是设计意图，实测给出的是横向排位。
+- <strong>空间多线程</strong>：NVIDIA 的卖点是减少「吵闹邻居」干扰、让延迟更可预测；C&amp;C 则指出这来自「几乎所有资源静态减半」的实现方式，在 SPEC 整数上收益与 Zen 5 相当，但在后端受限的浮点负载上出现了吞吐倒退。换句话说，<strong>可预测性是用资源利用率换来的</strong>。
+- <strong>性能对比对象</strong>：NVIDIA 的白皮书与博客选用 SPEC CPU2026 与 AMD Turin 对比满负载每核心性能；C&amp;C 则拿它与 Intel、AMD 的桌面旗舰以及 Arm Neoverse 对比单线程绝对值，并提醒测试机使用 64 KB 页会影响可比性。
+
 ## 核心总结
 
 - <strong>总体设计</strong>：10 宽乱序、3.3 GHz 的低频宽核，靠 IPC 而非频率取胜；布局借鉴 Arm Cortex X925 并进一步放大乱序结构，另加 SMT
@@ -178,5 +212,10 @@ Arm 早期的服务器芯片重核数而轻单核性能，随着新核心不断�
 - <strong>访存</strong>：96 KB L1D、10 周期 2 MB L2、164 MB L3；L3 延迟超 120 周期但靠激进预取维持约 50–51 个在飞请求；存储转发在缓存行中间 32 B 边界有异常停顿
 - <strong>性能</strong>：SPEC CPU2026 单线程接近桌面旗舰，SPEC CPU2017 与 Zen 4 桌面打平；整数负载常受前端限制，浮点负载多受后端限制，IPC 普遍高于 Zen 5
 - <strong>空间多线程</strong>：整数负载增益与 Zen 5 相当，浮点后端受限负载出现负增益（709.cactus、782.lbm），本质是双线程时把核心拆成两颗 5 宽核心；是否长期沿用尚待观察
+- <strong>平台定位</strong>：Vera CPU 为智能体 AI 设计，共 88 个 Olympus 核心 / 176 线程；主打 IPC 而非频率，并针对指针追逐、图结构等不规则访存加入图预取器
+- <strong>片内与内存</strong>：SCF 相干网络提供最高 3.4 TB/s 对分带宽与 164 MB 统一 L3，位于单体计算 die；SOCAMM2 LPDDR5X 提供最高 1.2 TB/s 聚合带宽（每核心最多 14 GB/s），模块可现场更换
+- <strong>平台扩展</strong>：第二代 NVLink-C2C 双路，每插槽一个 NUMA 域（双路共 2 个）；PCIe 6.4 双路 176 通道、CXL 3.1、基于 Arm CCA/RME 的机密计算；NVIDIA 称满负载每核心性能为 AMD Turin 9755 的 1.7–1.8 倍（SPEC CPU2026）
 
 原文：[NVIDIA's Olympus Core: Pushing Server Single Threaded Performance Boundaries](https://chipsandcheese.com/p/nvidias-olympus-core-pushing-server)（Chips and Cheese，2026-10-05）
+
+补充：[Inside NVIDIA Vera CPU: Olympus Cores Built for Maximum Single-Thread Performance in Agentic AI](https://developer.nvidia.com/blog/inside-nvidia-vera-cpu-olympus-cores-built-for-maximum-single-threaded-performance-in-agentic-ai/)（NVIDIA Developer Blog，2026）
