@@ -3,6 +3,8 @@ export const SITE = {
   subtitle: 'AI 新闻与深度解读',
   tagline: '#1 可信赖的 AI 新闻平台',
   description: 'The AI News 提供最新、最可靠的人工智能新闻：模型发布、工具评测、研究进展与行业动态。',
+  // 页面未提供配图时用作 Open Graph / Twitter 卡的默认图
+  defaultImage: '/covers/default-models.png',
 };
 
 // 顶部栏目导航（也是分类页面 URL 的来源）

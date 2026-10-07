@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://theainews.cc/sitemap-index.xml

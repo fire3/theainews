@@ -25,7 +25,14 @@ const flagged = allPosts.filter((p) => p.data.topStory);
 const topStories = flagged.length >= 5 ? flagged : allPosts;
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.image ?? categoryCover(post.data.category)}
+  author={post.data.author}
+  pubDate={post.data.pubDate}
+  type="article"
+>
   <main class="article-main">
     <div class="main-box">
       <div class="main-left-right">
