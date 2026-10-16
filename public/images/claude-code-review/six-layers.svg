@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">六层防线，各挡各的</title>
+  <desc id="desc">六层检查自上而下堆叠：验证、必需 CI、AI 评审、安全评审、人工审批、合并队列。每层的缺口位置不同，穿过缺口的问题会被后面的层接住，最终落到最下方的观察与回滚。</desc>
+  <defs>
+    <linearGradient id="page-bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5f9ff"/>
+      <stop offset="0.45" stop-color="#ffffff"/>
+    </linearGradient>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.4px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .layer { font-size: 21px; font-weight: 740; fill: #1e293b; }
+      .layer-amber { font-size: 21px; font-weight: 740; fill: #b45309; }
+      .note { font-size: 17px; font-weight: 500; fill: #64748b; }
+      .basin { font-size: 20px; font-weight: 740; fill: #b91c1c; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#page-bg2)"/>
+
+  <g class="sans">
+    <text x="70" y="76" class="title">六层防线，各挡各的</text>
+    <text x="70" y="114" class="subtitle">每层漏掉的位置不同：穿过缺口的问题会被后面的层接住</text>
+
+    <text x="520" y="150" class="note" text-anchor="middle">一次变更</text>
+
+    <!-- falling path -->
+    <path d="M 520 162 V 300 L 940 334 V 386 L 640 422 V 474 L 1240 510 V 562 L 800 598 V 650 L 1148 686 V 738 L 800 802"
+          fill="none" stroke="#d97706" stroke-width="3" stroke-dasharray="8 7" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- layer 1 -->
+    <text x="270" y="280" class="layer" text-anchor="end">验证</text>
+    <rect x="300" y="250" width="172" height="46" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+    <rect x="568" y="250" width="852" height="46" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+
+    <!-- layer 2 -->
+    <text x="270" y="368" class="layer" text-anchor="end">必需 CI</text>
+    <rect x="300" y="338" width="592" height="46" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+    <rect x="988" y="338" width="432" height="46" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+
+    <!-- layer 3 -->
+    <text x="270" y="456" class="layer" text-anchor="end">AI 评审</text>
+    <rect x="300" y="426" width="292" height="46" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+    <rect x="688" y="426" width="732" height="46" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+
+    <!-- layer 4 -->
+    <text x="270" y="544" class="layer" text-anchor="end">安全评审</text>
+    <rect x="300" y="514" width="892" height="46" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+    <rect x="1288" y="514" width="132" height="46" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+
+    <!-- layer 5 -->
+    <text x="270" y="632" class="layer-amber" text-anchor="end">人工审批</text>
+    <rect x="300" y="602" width="452" height="46" rx="6" fill="#fffaf0" stroke="#d97706" stroke-width="2"/>
+    <rect x="848" y="602" width="572" height="46" rx="6" fill="#fffaf0" stroke="#d97706" stroke-width="2"/>
+
+    <!-- layer 6 -->
+    <text x="270" y="720" class="layer" text-anchor="end">合并队列</text>
+    <rect x="300" y="690" width="800" height="46" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+    <rect x="1196" y="690" width="224" height="46" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+
+    <!-- basin -->
+    <rect x="520" y="768" width="560" height="68" rx="14" fill="#fff5f5" stroke="#dc2626" stroke-width="2" stroke-dasharray="9 7"/>
+    <text x="800" y="810" class="basin" text-anchor="middle">快速检测与回滚</text>
+
+    <circle cx="800" cy="802" r="11" fill="#d97706"/>
+    <circle cx="800" cy="802" r="22" fill="none" stroke="#d97706" stroke-width="2" opacity="0.45"/>
+
+    <text x="70" y="878" class="note">六层之外还有一层兜底：开关、回滚与分阶段发布能让大多数错误在几分钟内被撤销，事故复盘再追问哪一层本该抓住它。</text>
+  </g>
+</svg>

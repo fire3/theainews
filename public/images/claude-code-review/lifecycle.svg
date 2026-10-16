@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">一次变更的完整旅程</title>
+  <desc id="desc">一次典型变更从提交前的自我验证开始，依次经过必需 CI、Claude 代码评审、安全评审，再由人按风险分级审批，之后进入合并队列与开关灰度，最后是观察、前滚修复或回滚。除人工审批与兜底环节外，全部环节自动化。</desc>
+  <defs>
+    <linearGradient id="page-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5f9ff"/>
+      <stop offset="0.45" stop-color="#ffffff"/>
+    </linearGradient>
+    <style>
+      .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+      .title { font-size: 42px; font-weight: 800; fill: #0f172a; letter-spacing: -0.4px; }
+      .subtitle { font-size: 21px; font-weight: 500; fill: #64748b; }
+      .stage { font-size: 23px; font-weight: 760; fill: #172033; }
+      .stage-amber { font-size: 23px; font-weight: 760; fill: #b45309; }
+      .desc { font-size: 17px; font-weight: 500; fill: #64748b; }
+      .tag { font-size: 15px; font-weight: 760; fill: #1d4ed8; letter-spacing: 0.5px; }
+      .tag-amber { font-size: 15px; font-weight: 760; fill: #b45309; letter-spacing: 0.5px; }
+      .tag-rose { font-size: 15px; font-weight: 760; fill: #b91c1c; letter-spacing: 0.5px; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#page-bg)"/>
+
+  <g class="sans">
+    <text x="70" y="76" class="title">一次变更的完整旅程</text>
+    <text x="70" y="114" class="subtitle">路径上的大部分环节是自动的，人的注意力只投向风险所在</text>
+
+    <!-- row 1 -->
+    <rect x="70" y="170" width="1460" height="80" rx="14" fill="#ffffff" stroke="#dbe3ee" stroke-width="1.5"/>
+    <rect x="86" y="188" width="7" height="44" rx="3.5" fill="#2563eb"/>
+    <text x="122" y="206" class="stage">提交前验证</text>
+    <text x="122" y="232" class="desc">给 Claude 可运行的检查：测试、构建、对照设计稿的截图；再由干净上下文的 subagent 复审 diff</text>
+    <rect x="1372" y="196" width="130" height="30" rx="15" fill="#eef4ff"/>
+    <text x="1437" y="216" class="tag" text-anchor="middle">自动</text>
+
+    <!-- row 2 -->
+    <rect x="70" y="262" width="1460" height="80" rx="14" fill="#ffffff" stroke="#dbe3ee" stroke-width="1.5"/>
+    <rect x="86" y="280" width="7" height="44" rx="3.5" fill="#2563eb"/>
+    <text x="122" y="298" class="stage">必需 CI</text>
+    <text x="122" y="324" class="desc">lint、类型检查、各平台测试与构建；典型的 CLI PR 在有人看之前会跑上几十项检查</text>
+    <rect x="1372" y="288" width="130" height="30" rx="15" fill="#eef4ff"/>
+    <text x="1437" y="308" class="tag" text-anchor="middle">自动</text>
+
+    <!-- row 3 -->
+    <rect x="70" y="354" width="1460" height="80" rx="14" fill="#ffffff" stroke="#dbe3ee" stroke-width="1.5"/>
+    <rect x="86" y="372" width="7" height="44" rx="3.5" fill="#2563eb"/>
+    <text x="122" y="390" class="stage">Claude 代码评审</text>
+    <text x="122" y="416" class="desc">对照整个仓库与 PR 声明的意图读 diff；发现先由多个 agent 投票验证，再按严重程度发布</text>
+    <rect x="1372" y="380" width="130" height="30" rx="15" fill="#eef4ff"/>
+    <text x="1437" y="400" class="tag" text-anchor="middle">自动</text>
+
+    <!-- row 4 -->
+    <rect x="70" y="446" width="1460" height="80" rx="14" fill="#ffffff" stroke="#dbe3ee" stroke-width="1.5"/>
+    <rect x="86" y="464" width="7" height="44" rx="3.5" fill="#2563eb"/>
+    <text x="122" y="482" class="stage">安全评审</text>
+    <text x="122" y="508" class="desc">独立的自动安全评审；bug 评审或安全评审有任何未闭合的发现，PR 都不能合并</text>
+    <rect x="1362" y="472" width="150" height="30" rx="15" fill="#eef4ff"/>
+    <text x="1437" y="492" class="tag" text-anchor="middle">自动 · 可阻断</text>
+
+    <!-- row 5 -->
+    <rect x="70" y="538" width="1460" height="80" rx="14" fill="#fffaf0" stroke="#f0c987" stroke-width="1.5"/>
+    <rect x="86" y="556" width="7" height="44" rx="3.5" fill="#d97706"/>
+    <text x="122" y="574" class="stage-amber">按风险分级的人工审批</text>
+    <text x="122" y="600" class="desc">低风险在自动检查全绿后无需人工（仅限受信任作者）、中风险一人、高风险两人；等级由变更而非作者决定</text>
+    <rect x="1362" y="564" width="150" height="30" rx="15" fill="#fdf0d8"/>
+    <text x="1437" y="584" class="tag-amber" text-anchor="middle">人的判断</text>
+
+    <!-- row 6 -->
+    <rect x="70" y="630" width="1460" height="80" rx="14" fill="#ffffff" stroke="#dbe3ee" stroke-width="1.5"/>
+    <rect x="86" y="648" width="7" height="44" rx="3.5" fill="#2563eb"/>
+    <text x="122" y="666" class="stage">合并队列与开关灰度</text>
+    <text x="122" y="692" class="desc">合并队列把变更叠到 main 上重跑全部检查；新行为先只对内部员工开启，公开发布先走 latest 通道</text>
+    <rect x="1372" y="648" width="130" height="30" rx="15" fill="#eef4ff"/>
+    <text x="1437" y="668" class="tag" text-anchor="middle">系统</text>
+
+    <!-- row 7 -->
+    <rect x="70" y="722" width="1460" height="80" rx="14" fill="#fff5f5" stroke="#e7b4b4" stroke-width="1.5" stroke-dasharray="9 7"/>
+    <rect x="86" y="740" width="7" height="44" rx="3.5" fill="#dc2626"/>
+    <text x="122" y="758" class="stage">观察、前滚修复或回滚</text>
+    <text x="122" y="784" class="desc">开关无需部署即可关闭；每周轮换 on-call，事故复盘追问哪一层本该抓住它</text>
+    <rect x="1362" y="740" width="150" height="30" rx="15" fill="#fde8e8"/>
+    <text x="1437" y="760" class="tag-rose" text-anchor="middle">兜底</text>
+
+    <text x="70" y="850" class="desc">每一层都会挡住一部分问题、漏掉另一部分；能穿过全部六层的问题极少，剩下的交给最后的回滚。</text>
+  </g>
+</svg>
