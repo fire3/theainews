@@ -1,6 +1,6 @@
 ---
 title: "OpenAI 让模型造实体产品：Astra 不到一周做完一台设备的外壳、PCB、固件与界面"
-description: "OpenAI 展示模型在机械与电气设计上的进展：Astra 一周内完成一台可对话设备的外壳、PCB 与固件，硬件团队 Token 用量自 2 月增 23 倍，并与马自达合作优化风阻。"
+description: "OpenAI 让模型参与实体产品设计：Astra 一周内做完一台可对话设备的外壳、PCB 与固件，硬件团队 Token 用量自 2 月增 23 倍，并与马自达合作优化风阻。"
 pubDate: 2026-11-05
 author: "林晓"
 category: "industry"
