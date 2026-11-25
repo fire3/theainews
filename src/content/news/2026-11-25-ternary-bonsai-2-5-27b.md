@@ -1,6 +1,6 @@
 ---
 title: "PrismML 发布三元 Bonsai 2.5 27B：5.9GB 权重，智能体编程追至满血版九成"
-description: "PrismML 发布三元 Bonsai 2.5 27B：权重仍为 5.93GB，智能体编程保留满血版 90%，工具调用五项均值 77.2 逼近 FP16。"
+description: "PrismML 发布三元 Bonsai 2.5 27B：体积仍 5.93GB，智能体编程保留满血版 90%，工具调用均值 77.2 逼近 FP16。"
 pubDate: 2026-11-25
 author: "林晓"
 category: "models"
@@ -70,7 +70,7 @@ Bonsai 2.5 是这一组里最小的，却在 10 GB 以下的所有构建中同�
 速度上这一版补了关键一环：每个 GGUF 文件都内置了多 token 预测（MTP）草稿头，由主模型一次性校验草稿，NVIDIA GPU 上解码提速 1.5 到 1.8 倍，输出与不开草稿的差异仅在舍入噪声量级（H200 上 PTQ1_0 的平均 KL 散度为 5.2×10⁻⁵）。
 
 - 官方博客口径：单张 H100 带 MTP 达 291 tokens/s，2000 token 提示词的预填充为 3200 tokens/s；RTX 4090 上为 204 tokens/s，预填充约 3060 tokens/s。
-- 白皮书纯解码数据（不开 MTP）：H200 189、B200 192、H100 186、RTX 5090 163 tokens/s，较 9 月发布版提升 1.1 到 2.4 倍。
+- 白皮书纯解码数据（不开 MTP）：H200 189、B200 192、H100 186、RTX 5090 163 tokens/s，较 9 月发布版提升 1.1 到 2.1 倍。
 - 代价是 MTP 自己要过一遍提示词，NVIDIA 上预填充会慢 9% 到 23%；把仍在测试的 kernel 计入后，带 MTP 的预填充反而全面反超。
 
 生态上，Q2_0 文件已能在原生 llama.cpp 运行，运行时支持以 PR #29600 合入，所需的块状 Hadamard（FWHT）kernel 已在 CPU、CUDA、Metal、Vulkan、SYCL、MUSA 上游落地，PTQ1_0 格式仍在评审中。Apple 侧提供 MLX 文本版，与 llama.cpp 的输出高度一致，在 M5 Pro 上预填充 348 tokens/s、解码 21.7 tokens/s。
